@@ -22,11 +22,13 @@ interface OrderItem {
   };
 }
 
+type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+
 interface Order {
   id: string;
   user_id: string;
   total_amount: number;
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status: OrderStatus;
   shipping_address: string;
   phone: string;
   notes: string;
@@ -86,7 +88,7 @@ const AdminOrders = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setOrders((data || []) as Order[]);
+      setOrders((data || []) as unknown as Order[]);
     } catch (error) {
       console.error('Error fetching orders:', error);
       toast({
@@ -99,7 +101,7 @@ const AdminOrders = () => {
     }
   };
 
-  const updateOrderStatus = async (orderId: string, newStatus: string) => {
+  const updateOrderStatus = async (orderId: string, newStatus: OrderStatus) => {
     try {
       const { error } = await supabase
         .from('orders')
@@ -266,7 +268,7 @@ const AdminOrders = () => {
                 <div className="flex items-center gap-2">
                   <Select
                     value={order.status}
-                    onValueChange={(value) => updateOrderStatus(order.id, value)}
+                    onValueChange={(value) => updateOrderStatus(order.id, value as OrderStatus)}
                   >
                     <SelectTrigger className="w-32">
                       <SelectValue />
