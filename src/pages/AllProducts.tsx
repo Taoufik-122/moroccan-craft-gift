@@ -1,396 +1,300 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Heart, ShoppingCart, Star, Eye, Filter } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Heart, ShoppingCart, Star, Search } from "lucide-react";
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
+
+type Product = Tables<'products'> & {
+  categories: Tables<'categories'>;
+};
 
 const AllProducts = () => {
-  const { addToCart } = useCart();
-  const { t } = useLanguage();
+  const { addItem } = useCart();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<string>('all');
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Tables<'categories'>[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const allProducts = [
-    {
-      id: 1,
-      name: "Handcrafted Copper Teapot",
-      arabicName: "إبريق شاي نحاسي",
-      city: "Fez",
-      price: 89,
-      originalPrice: 120,
-      rating: 4.8,
-      reviews: 24,
-      image: "photo-1618160702438-9b02ab6515c9",
-      category: "Copperware",
-      isNew: true,
-      isBestseller: false
-    },
-    {
-      id: 2,
-      name: "Traditional Leather Bag",
-      arabicName: "حقيبة جلدية تقليدية",
-      city: "Marrakech",
-      price: 145,
-      originalPrice: null,
-      rating: 4.9,
-      reviews: 18,
-      image: "photo-1721322800607-8c38375eef04",
-      category: "Leather Goods",
-      isNew: false,
-      isBestseller: true
-    },
-    {
-      id: 3,
-      name: "Berber Wool Carpet",
-      arabicName: "سجادة صوف أمازيغية",
-      city: "Rabat",
-      price: 320,
-      originalPrice: 450,
-      rating: 4.7,
-      reviews: 31,
-      image: "photo-1482881497185-d4a9ddbe4151",
-      category: "Carpets",
-      isNew: false,
-      isBestseller: false
-    },
-    {
-      id: 4,
-      name: "Embroidered Kaftan",
-      arabicName: "قفطان مطرز",
-      city: "Tetouan",
-      price: 198,
-      originalPrice: 280,
-      rating: 4.6,
-      reviews: 12,
-      image: "photo-1466442929976-97f336a657be",
-      category: "Embroidery",
-      isNew: true,
-      isBestseller: false
-    },
-    {
-      id: 5,
-      name: "Decorative Copper Tray",
-      arabicName: "صينية نحاسية مزخرفة",
-      city: "Fez",
-      price: 75,
-      originalPrice: null,
-      rating: 4.5,
-      reviews: 19,
-      image: "photo-1618160702438-9b02ab6515c9",
-      category: "Copperware",
-      isNew: false,
-      isBestseller: true
-    },
-    {
-      id: 6,
-      name: "Leather Pouf",
-      arabicName: "بوف جلدي",
-      city: "Marrakech",
-      price: 89,
-      originalPrice: 120,
-      rating: 4.4,
-      reviews: 15,
-      image: "photo-1721322800607-8c38375eef04",
-      category: "Leather Goods",
-      isNew: false,
-      isBestseller: false
-    },
-    {
-      id: 7,
-      name: "Handwoven Kilim",
-      arabicName: "كيليم منسوج يدوياً",
-      city: "Rabat",
-      price: 180,
-      originalPrice: 240,
-      rating: 4.8,
-      reviews: 22,
-      image: "photo-1482881497185-d4a9ddbe4151",
-      category: "Carpets",
-      isNew: false,
-      isBestseller: true
-    },
-    {
-      id: 8,
-      name: "Ceramic Tagine",
-      arabicName: "طاجين سيراميك",
-      city: "Meknes",
-      price: 65,
-      originalPrice: null,
-      rating: 4.7,
-      reviews: 28,
-      image: "photo-1466442929976-97f336a657be",
-      category: "Pottery",
-      isNew: true,
-      isBestseller: false
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    // Set up real-time subscription for products
+    const channel = supabase
+      .channel('products-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'products'
+        },
+        () => {
+          fetchProducts();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        *,
+        categories (*)
+      `)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching products:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load products",
+        variant: "destructive",
+      });
+    } else {
+      setProducts(data || []);
     }
-  ];
+    setLoading(false);
+  };
 
-  const cities = ['all', 'Fez', 'Marrakech', 'Rabat', 'Tetouan', 'Meknes'];
-  const categories = ['all', 'Copperware', 'Leather Goods', 'Carpets', 'Embroidery', 'Pottery'];
+  const fetchCategories = async () => {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .order('name_en');
+
+    if (error) {
+      console.error('Error fetching categories:', error);
+    } else {
+      setCategories(data || []);
+    }
+  };
+
+  const cities = Array.from(new Set(categories.map(cat => cat.city)));
   const priceRanges = [
-    { value: 'all', label: 'All Prices' },
-    { value: '0-100', label: '$0 - $100' },
-    { value: '100-200', label: '$100 - $200' },
-    { value: '200-500', label: '$200 - $500' },
-    { value: '500+', label: '$500+' }
+    { label: "Under $50", min: 0, max: 50 },
+    { label: "$50 - $100", min: 50, max: 100 },
+    { label: "$100 - $200", min: 100, max: 200 },
+    { label: "$200 - $400", min: 200, max: 400 },
+    { label: "Over $400", min: 400, max: 1000 }
   ];
 
-  const filteredProducts = allProducts.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.arabicName.includes(searchTerm) ||
-                         product.city.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCity = selectedCity === 'all' || product.city === selectedCity;
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    
-    let matchesPrice = true;
-    if (priceRange !== 'all') {
-      if (priceRange === '0-100') matchesPrice = product.price <= 100;
-      else if (priceRange === '100-200') matchesPrice = product.price > 100 && product.price <= 200;
-      else if (priceRange === '200-500') matchesPrice = product.price > 200 && product.price <= 500;
-      else if (priceRange === '500+') matchesPrice = product.price > 500;
+  const getProductName = (product: Product) => {
+    switch (language) {
+      case 'ar':
+        return product.name_ar;
+      case 'fr':
+        return product.name_fr;
+      default:
+        return product.name_en;
     }
+  };
 
+  const getCategoryName = (category: Tables<'categories'>) => {
+    switch (language) {
+      case 'ar':
+        return category.name_ar;
+      case 'fr':
+        return category.name_fr;
+      default:
+        return category.name_en;
+    }
+  };
+
+  const filteredProducts = products.filter(product => {
+    const productName = getProductName(product);
+    const matchesSearch = productName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCity = selectedCity === "all" || product.categories.city === selectedCity;
+    const matchesCategory = selectedCategory === "all" || getCategoryName(product.categories) === selectedCategory;
+    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    
     return matchesSearch && matchesCity && matchesCategory && matchesPrice;
   });
 
-  const toggleFavorite = (productId: number) => {
-    setFavorites(prev =>
-      prev.includes(productId)
+  const toggleFavorite = (productId: string) => {
+    setFavorites(prev => 
+      prev.includes(productId) 
         ? prev.filter(id => id !== productId)
         : [...prev, productId]
     );
   };
 
-  const handleAddToCart = (product: any) => {
-    addToCart({
+  const handleAddToCart = (product: Product) => {
+    const productName = getProductName(product);
+    addItem({
       id: product.id,
-      name: product.name,
-      arabicName: product.arabicName,
+      name: productName,
       price: product.price,
-      image: product.image,
-      city: product.city,
-      category: product.category
+      image: product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'
     });
     
     toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart.`,
+      title: t('addedToCart'),
+      description: `${productName} ${t('hasBeenAddedToYourCart')}`,
     });
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-pulse text-xl">Loading products...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t('nav.products')}</h1>
-          <p className="text-muted-foreground">Discover our complete collection of authentic Moroccan handicrafts</p>
+    <div className="min-h-screen bg-gradient-subtle">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
+            {t('allProducts')}
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            {t('discoverOurCompleteCollection')}
+          </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-card border border-border rounded-lg p-6 mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Filter className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold">Filters</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-border/50">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Search */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Search</label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="Search products..."
+                placeholder={t('searchProducts')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
               />
             </div>
 
             {/* City Filter */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">City</label>
-              <Select value={selectedCity} onValueChange={setSelectedCity}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select city" />
-                </SelectTrigger>
-                <SelectContent>
-                  {cities.map(city => (
-                    <SelectItem key={city} value={city}>
-                      {city === 'all' ? 'All Cities' : city}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Select value={selectedCity} onValueChange={setSelectedCity}>
+              <SelectTrigger>
+                <SelectValue placeholder={t('selectCity')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t('allCities')}</SelectItem>
+                {cities.map(city => (
+                  <SelectItem key={city} value={city}>{city}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
             {/* Category Filter */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Category</label>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map(category => (
-                    <SelectItem key={category} value={category}>
-                      {category === 'all' ? 'All Categories' : category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger>
+                <SelectValue placeholder={t('selectCategory')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t('allCategories')}</SelectItem>
+                {categories.map(category => (
+                  <SelectItem key={category.id} value={getCategoryName(category)}>{getCategoryName(category)}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-            {/* Price Filter */}
-            <div>
-              <label className="text-sm font-medium mb-2 block">Price Range</label>
-              <Select value={priceRange} onValueChange={setPriceRange}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select price range" />
-                </SelectTrigger>
-                <SelectContent>
-                  {priceRanges.map(range => (
-                    <SelectItem key={range.value} value={range.value}>
-                      {range.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            {/* Price Range */}
+            <div className="space-y-3">
+              <label className="text-sm font-medium">{t('priceRange')}: ${priceRange[0]} - ${priceRange[1]}</label>
+              <Slider
+                value={priceRange}
+                onValueChange={setPriceRange}
+                max={500}
+                min={0}
+                step={10}
+                className="w-full"
+              />
             </div>
           </div>
         </div>
 
-        {/* Results Info */}
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-muted-foreground">
-            Showing {filteredProducts.length} of {allProducts.length} products
-          </p>
-        </div>
-
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
           {filteredProducts.map((product) => (
-            <Card
-              key={product.id}
-              className="group cursor-pointer hover:shadow-warm transition-all duration-300 border-border/50 hover:border-primary/30 overflow-hidden"
-            >
-              {/* Product Image */}
-              <div className="relative h-64 bg-muted overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10" />
+            <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300 overflow-hidden">
+              <div className="relative">
+                <img 
+                  src={product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'}
+                  alt={getProductName(product)}
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <button
+                  onClick={() => toggleFavorite(product.id)}
+                  className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${
+                    favorites.includes(product.id)
+                      ? 'bg-red-500 text-white' 
+                      : 'bg-white/80 text-gray-600 hover:bg-red-500 hover:text-white'
+                  }`}
+                >
+                  <Heart className="w-4 h-4" fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
+                </button>
                 
-                {/* Badges */}
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  {product.isNew && (
-                    <Badge className="bg-accent text-accent-foreground text-xs">New</Badge>
-                  )}
-                  {product.isBestseller && (
-                    <Badge className="bg-primary text-primary-foreground text-xs">Bestseller</Badge>
-                  )}
-                  {product.originalPrice && (
-                    <Badge variant="destructive" className="text-xs">
-                      -{Math.round((1 - product.price / product.originalPrice) * 100)}%
-                    </Badge>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(product.id);
-                    }}
-                  >
-                    <Heart
-                      className={`h-4 w-4 ${favorites.includes(product.id) ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`}
-                    />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                  >
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  </Button>
-                </div>
-
-                {/* Quick Add to Cart */}
-                <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                  <Button
-                    size="sm"
-                    className="w-full bg-primary hover:bg-primary-glow shadow-warm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product);
-                    }}
-                  >
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    {t('common.addToCart')}
-                  </Button>
-                </div>
-
-                {/* City Badge */}
-                <div className="absolute bottom-3 right-3 opacity-80">
-                  <Badge variant="outline" className="bg-white/80 text-xs">
-                    {product.city}
-                  </Badge>
-                </div>
+                <Badge className="absolute top-4 left-4 bg-primary">
+                  {getCategoryName(product.categories)}
+                </Badge>
               </div>
-
-              {/* Product Info */}
-              <CardContent className="p-4">
-                <div className="mb-2">
-                  <p className="text-xs text-muted-foreground mb-1">{product.category}</p>
-                  <h3 className="font-semibold text-foreground mb-1 line-clamp-2">
-                    {product.name}
+              
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                    {getProductName(product)}
                   </h3>
-                  <p className="text-xs text-muted-foreground opacity-70">
-                    {product.arabicName}
-                  </p>
+                  <span className="text-sm text-muted-foreground">{product.categories.city}</span>
                 </div>
-
-                {/* Rating */}
-                <div className="flex items-center gap-1 mb-3">
-                  <div className="flex items-center">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className={`h-3 w-3 ${
-                          star <= Math.floor(product.rating)
-                            ? 'fill-accent text-accent'
-                            : 'text-muted-foreground/30'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {product.rating} ({product.reviews})
+                
+                <div className="flex items-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+                    />
+                  ))}
+                  <span className="text-sm text-muted-foreground ml-1">
+                    (4.5)
                   </span>
                 </div>
-
-                {/* Price */}
-                <div className="flex items-center justify-between">
+                
+                <p className="text-sm text-muted-foreground mb-4">{getCategoryName(product.categories)}</p>
+                
+                <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-primary">
-                      ${product.price}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-sm text-muted-foreground line-through">
-                        ${product.originalPrice}
-                      </span>
-                    )}
+                    <span className="text-2xl font-bold text-primary">${product.price}</span>
                   </div>
+                  
+                  <Button
+                    onClick={() => handleAddToCart(product)}
+                    className="flex items-center gap-2"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    {t('addToCart')}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -398,20 +302,23 @@ const AllProducts = () => {
         </div>
 
         {/* No Results */}
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-lg font-semibold text-foreground mb-2">No products found</h3>
-            <p className="text-muted-foreground mb-4">Try adjusting your filters or search terms</p>
-            <Button
-              variant="outline"
+        {filteredProducts.length === 0 && !loading && (
+          <div className="text-center py-16">
+            <div className="mb-4">
+              <ShoppingCart className="mx-auto h-16 w-16 text-muted-foreground/50" />
+            </div>
+            <h3 className="text-2xl font-semibold mb-2">{t('noProductsFound')}</h3>
+            <p className="text-muted-foreground mb-6">{t('tryAdjustingFilters')}</p>
+            <Button 
               onClick={() => {
-                setSearchTerm('');
-                setSelectedCity('all');
-                setSelectedCategory('all');
-                setPriceRange('all');
+                setSearchTerm("");
+                setSelectedCity("all");
+                setSelectedCategory("all");
+                setPriceRange([0, 500]);
               }}
+              variant="outline"
             >
-              Clear All Filters
+              {t('clearFilters')}
             </Button>
           </div>
         )}

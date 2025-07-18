@@ -1,21 +1,19 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface CartItem {
-  id: number;
+  id: string;
   name: string;
-  arabicName: string;
   price: number;
   image: string;
-  city: string;
-  category: string;
   quantity: number;
 }
 
 interface CartContextType {
   items: CartItem[];
+  addItem: (product: Omit<CartItem, 'quantity'>) => void;
   addToCart: (product: Omit<CartItem, 'quantity'>) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
@@ -53,11 +51,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const removeFromCart = (productId: number) => {
+  const addItem = addToCart; // Alias for compatibility
+
+  const removeFromCart = (productId: string) => {
     setItems(prevItems => prevItems.filter(item => item.id !== productId));
   };
 
-  const updateQuantity = (productId: number, quantity: number) => {
+  const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
@@ -80,6 +80,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   return (
     <CartContext.Provider value={{
       items,
+      addItem,
       addToCart,
       removeFromCart,
       updateQuantity,

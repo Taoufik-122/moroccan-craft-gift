@@ -1,72 +1,67 @@
-import { useState } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Heart, ShoppingCart, Star, Eye } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
+
+type Product = Tables<'products'> & {
+  categories: Tables<'categories'>;
+};
 
 const FeaturedProducts = () => {
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const { t, language } = useLanguage();
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
-  const products = [
-    {
-      id: 1,
-      name: "Handcrafted Copper Teapot",
-      arabicName: "إبريق شاي نحاسي",
-      city: "Fez",
-      price: 89,
-      originalPrice: 120,
-      rating: 4.8,
-      reviews: 24,
-      image: "photo-1618160702438-9b02ab6515c9",
-      category: "Copperware",
-      isNew: true,
-      isBestseller: false
-    },
-    {
-      id: 2,
-      name: "Traditional Leather Bag",
-      arabicName: "حقيبة جلدية تقليدية", 
-      city: "Marrakech",
-      price: 145,
-      originalPrice: null,
-      rating: 4.9,
-      reviews: 18,
-      image: "photo-1721322800607-8c38375eef04",
-      category: "Leather Goods",
-      isNew: false,
-      isBestseller: true
-    },
-    {
-      id: 3,
-      name: "Berber Wool Carpet",
-      arabicName: "سجادة صوف أمازيغية",
-      city: "Rabat", 
-      price: 320,
-      originalPrice: 450,
-      rating: 4.7,
-      reviews: 31,
-      image: "photo-1482881497185-d4a9ddbe4151",
-      category: "Carpets",
-      isNew: false,
-      isBestseller: false
-    },
-    {
-      id: 4,
-      name: "Embroidered Kaftan",
-      arabicName: "قفطان مطرز",
-      city: "Tetouan",
-      price: 198,
-      originalPrice: 280,
-      rating: 4.6,
-      reviews: 12,
-      image: "photo-1466442929976-97f336a657be",
-      category: "Embroidery",
-      isNew: true,
-      isBestseller: false
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
+
+  const fetchFeaturedProducts = async () => {
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        *,
+        categories (*)
+      `)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    if (error) {
+      console.error('Error fetching featured products:', error);
+    } else {
+      setProducts(data || []);
     }
-  ];
+  };
 
-  const toggleFavorite = (productId: number) => {
+  const getProductName = (product: Product) => {
+    switch (language) {
+      case 'ar':
+        return product.name_ar;
+      case 'fr':
+        return product.name_fr;
+      default:
+        return product.name_en;
+    }
+  };
+
+  const getCategoryName = (category: Tables<'categories'>) => {
+    switch (language) {
+      case 'ar':
+        return category.name_ar;
+      case 'fr':
+        return category.name_fr;
+      default:
+        return category.name_en;
+    }
+  };
+
+  const toggleFavorite = (productId: string) => {
     setFavorites(prev => 
       prev.includes(productId) 
         ? prev.filter(id => id !== productId)
@@ -75,130 +70,75 @@ const FeaturedProducts = () => {
   };
 
   return (
-    <section className="py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-gradient-subtle">
+      <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-accent text-accent-foreground shadow-gold">
-            ⭐ Featured Collection
-          </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Handpicked Products
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
+            {t('featuredProducts')}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover our most popular authentic Moroccan products, chosen for their exceptional quality and craftsmanship
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            {t('discoverOurBestSellingHandcraftedTreasures')}
           </p>
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {products.map((product) => (
-            <Card 
-              key={product.id}
-              className="group cursor-pointer hover:shadow-warm transition-all duration-300 border-border/50 hover:border-primary/30 overflow-hidden"
-            >
-              {/* Product Image */}
-              <div className="relative h-64 bg-muted overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10" />
+            <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300 overflow-hidden">
+              <div className="relative">
+                <img 
+                  src={product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'}
+                  alt={getProductName(product)}
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <button
+                  onClick={() => toggleFavorite(product.id)}
+                  className={`absolute top-4 right-4 p-2 rounded-full transition-colors ${
+                    favorites.includes(product.id)
+                      ? 'bg-red-500 text-white' 
+                      : 'bg-white/80 text-gray-600 hover:bg-red-500 hover:text-white'
+                  }`}
+                >
+                  <Heart className="w-4 h-4" fill={favorites.includes(product.id) ? 'currentColor' : 'none'} />
+                </button>
                 
-                {/* Badges */}
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  {product.isNew && (
-                    <Badge className="bg-accent text-accent-foreground text-xs">New</Badge>
-                  )}
-                  {product.isBestseller && (
-                    <Badge className="bg-primary text-primary-foreground text-xs">Bestseller</Badge>
-                  )}
-                  {product.originalPrice && (
-                    <Badge variant="destructive" className="text-xs">
-                      -{Math.round((1 - product.price / product.originalPrice) * 100)}%
-                    </Badge>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(product.id);
-                    }}
-                  >
-                    <Heart 
-                      className={`h-4 w-4 ${favorites.includes(product.id) ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} 
-                    />
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="h-8 w-8 p-0 bg-white/90 hover:bg-white"
-                  >
-                    <Eye className="h-4 w-4 text-muted-foreground" />
-                  </Button>
-                </div>
-
-                {/* Quick Add to Cart */}
-                <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                  <Button size="sm" className="w-full bg-primary hover:bg-primary-glow shadow-warm">
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    Add to Cart
-                  </Button>
-                </div>
-
-                {/* City Badge */}
-                <div className="absolute bottom-3 right-3 opacity-80">
-                  <Badge variant="outline" className="bg-white/80 text-xs">
-                    {product.city}
-                  </Badge>
-                </div>
+                <Badge className="absolute top-4 left-4 bg-primary">
+                  {getCategoryName(product.categories)}
+                </Badge>
               </div>
-
-              {/* Product Info */}
-              <CardContent className="p-4">
-                <div className="mb-2">
-                  <p className="text-xs text-muted-foreground mb-1">{product.category}</p>
-                  <h3 className="font-semibold text-foreground mb-1 line-clamp-2">
-                    {product.name}
+              
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                    {getProductName(product)}
                   </h3>
-                  <p className="text-xs text-muted-foreground opacity-70">
-                    {product.arabicName}
-                  </p>
+                  <span className="text-sm text-muted-foreground">{product.categories.city}</span>
                 </div>
-
-                {/* Rating */}
-                <div className="flex items-center gap-1 mb-3">
-                  <div className="flex items-center">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className={`h-3 w-3 ${
-                          star <= Math.floor(product.rating)
-                            ? 'fill-accent text-accent'
-                            : 'text-muted-foreground/30'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {product.rating} ({product.reviews})
+                
+                <div className="flex items-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
+                    />
+                  ))}
+                  <span className="text-sm text-muted-foreground ml-1">
+                    (4.5)
                   </span>
                 </div>
-
-                {/* Price */}
-                <div className="flex items-center justify-between">
+                
+                <p className="text-sm text-muted-foreground mb-4">{getCategoryName(product.categories)}</p>
+                
+                <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-primary">
-                      ${product.price}
-                    </span>
-                    {product.originalPrice && (
-                      <span className="text-sm text-muted-foreground line-through">
-                        ${product.originalPrice}
-                      </span>
-                    )}
+                    <span className="text-2xl font-bold text-primary">${product.price}</span>
                   </div>
+                  
+                  <Button className="flex items-center gap-2">
+                    <ShoppingCart className="w-4 h-4" />
+                    {t('addToCart')}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -206,10 +146,15 @@ const FeaturedProducts = () => {
         </div>
 
         {/* View All Button */}
-        <div className="text-center mt-12">
-          <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            View All Products
-          </Button>
+        <div className="text-center">
+          <Link to="/products">
+            <Button size="lg" className="group">
+              {t('viewAllProducts')}
+              <div className="ml-2 group-hover:translate-x-1 transition-transform">
+                →
+              </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
