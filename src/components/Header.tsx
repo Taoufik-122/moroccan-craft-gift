@@ -7,9 +7,12 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+  console.log('Header component rendering');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  console.log('About to call useCart');
   const { totalItems } = useCart();
+  console.log('useCart successful, totalItems:', totalItems);
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },

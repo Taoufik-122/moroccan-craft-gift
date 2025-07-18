@@ -21,7 +21,10 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+console.log('CartContext created:', CartContext);
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  console.log('CartProvider rendering');
   const [items, setItems] = useState<CartItem[]>([]);
 
   // Load cart from localStorage on mount
@@ -94,8 +97,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useCart = () => {
+  console.log('useCart called');
   const context = useContext(CartContext);
+  console.log('CartContext value:', context);
   if (context === undefined) {
+    console.error('CartContext is undefined - component is not wrapped in CartProvider');
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
