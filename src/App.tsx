@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import AllProducts from "./pages/AllProducts";
+import ProductDetail from "./pages/ProductDetail";
 import CityCollections from "./pages/CityCollections";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -37,6 +38,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/products" element={<AllProducts />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/cities" element={<CityCollections />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />

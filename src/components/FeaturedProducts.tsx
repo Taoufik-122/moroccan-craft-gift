@@ -3,8 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingCart, Star } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCart } from '@/contexts/CartContext';
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -14,6 +16,9 @@ type Product = Tables<'products'> & {
 
 const FeaturedProducts = () => {
   const { t, language } = useLanguage();
+  const { addItem } = useCart();
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [favorites, setFavorites] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -69,6 +74,21 @@ const FeaturedProducts = () => {
     );
   };
 
+  const handleAddToCart = (product: Product) => {
+    const productName = getProductName(product);
+    addItem({
+      id: product.id,
+      name: productName,
+      price: product.price,
+      image: product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'
+    });
+    
+    toast({
+      title: t('addedToCart'),
+      description: `${productName} ${t('hasBeenAddedToYourCart')}`,
+    });
+  };
+
   return (
     <section className="py-20 bg-gradient-subtle">
       <div className="container mx-auto px-4">
@@ -85,7 +105,11 @@ const FeaturedProducts = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {products.map((product) => (
-            <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300 overflow-hidden">
+            <Card 
+              key={product.id} 
+              className="group hover:shadow-elegant transition-all duration-300 overflow-hidden cursor-pointer"
+              onClick={() => navigate(`/product/${product.id}`)}
+            >
               <div className="relative">
                 <img 
                   src={product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'}
@@ -135,7 +159,13 @@ const FeaturedProducts = () => {
                     <span className="text-2xl font-bold text-primary">${product.price}</span>
                   </div>
                   
-                  <Button className="flex items-center gap-2">
+                  <Button 
+                    className="flex items-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToCart(product);
+                    }}
+                  >
                     <ShoppingCart className="w-4 h-4" />
                     {t('addToCart')}
                   </Button>

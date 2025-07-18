@@ -11,6 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { useNavigate } from 'react-router-dom';
 
 type Product = Tables<'products'> & {
   categories: Tables<'categories'>;
@@ -20,6 +21,7 @@ const AllProducts = () => {
   const { addItem } = useCart();
   const { t, language } = useLanguage();
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
@@ -238,7 +240,11 @@ const AllProducts = () => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
           {filteredProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-elegant transition-all duration-300 overflow-hidden">
+            <Card 
+              key={product.id} 
+              className="group hover:shadow-elegant transition-all duration-300 overflow-hidden cursor-pointer"
+              onClick={() => navigate(`/product/${product.id}`)}
+            >
               <div className="relative">
                 <img 
                   src={product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'}
@@ -289,7 +295,10 @@ const AllProducts = () => {
                   </div>
                   
                   <Button
-                    onClick={() => handleAddToCart(product)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToCart(product);
+                    }}
                     className="flex items-center gap-2"
                   >
                     <ShoppingCart className="w-4 h-4" />

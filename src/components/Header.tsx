@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Menu, X, Globe, Search } from 'lucide-react';
+import { ShoppingCart, Menu, X, Globe, Search, LogIn, LogOut, Settings } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
   console.log('Header component rendering');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { user, userRole, signOut } = useAuth();
   console.log('About to call useCart');
   const { totalItems } = useCart();
   console.log('useCart successful, totalItems:', totalItems);
@@ -66,6 +68,39 @@ const Header = () => {
                 <span className="hidden sm:inline">{languages.find(l => l.code === language)?.flag}</span>
               </Button>
             </div>
+
+            {/* Authentication */}
+            {user ? (
+              <div className="flex items-center space-x-2">
+                {/* Admin Button - Only show for admin users */}
+                {userRole === 'admin' && (
+                  <Link to="/admin">
+                    <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                      <Settings className="h-4 w-4" />
+                      <span className="hidden sm:inline">Admin</span>
+                    </Button>
+                  </Link>
+                )}
+                
+                {/* Logout Button */}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={signOut}
+                  className="flex items-center space-x-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:inline">Logout</span>
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                  <LogIn className="h-4 w-4" />
+                  <span className="hidden sm:inline">Login</span>
+                </Button>
+              </Link>
+            )}
 
             {/* Cart */}
             <Link to="/cart">
