@@ -72,11 +72,13 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-sunset': 'var(--gradient-sunset)',
-				'gradient-blue': 'var(--gradient-blue)'
+				'gradient-blue': 'var(--gradient-blue)',
+				'gradient-moroccan': 'var(--gradient-moroccan)'
 			},
 			boxShadow: {
 				'warm': 'var(--shadow-warm)',
-				'gold': 'var(--shadow-gold)'
+				'gold': 'var(--shadow-gold)',
+				'elegant': 'var(--shadow-elegant)'
 			},
 			transitionProperty: {
 				'smooth': 'var(--transition-smooth)'
