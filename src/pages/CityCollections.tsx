@@ -173,6 +173,7 @@ const CityCollections = () => {
                 <Button 
                   className="w-full justify-between group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300"
                   variant="outline"
+                  onClick={() => window.location.href = `/products?city=${encodeURIComponent(city.name)}`}
                 >
                   Explore {city.name} Collection
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
@@ -191,10 +192,19 @@ const CityCollections = () => {
               Support local artisans and bring home a piece of authentic Morocco.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="secondary" size="lg">
+              <Button 
+                variant="secondary" 
+                size="lg"
+                onClick={() => window.location.href = '/products'}
+              >
                 Shop All Collections
               </Button>
-              <Button variant="outline" size="lg" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                onClick={() => window.location.href = '/about'}
+              >
                 Learn About Our Artisans
               </Button>
             </div>

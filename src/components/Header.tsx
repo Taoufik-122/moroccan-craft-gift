@@ -57,7 +57,12 @@ const Header = () => {
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden sm:flex"
+              onClick={() => window.location.href = '/products'}
+            >
               <Search className="h-4 w-4" />
             </Button>
 
@@ -134,17 +139,24 @@ const Header = () => {
           <div className="md:hidden border-t border-border">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-card">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted rounded-md transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <div className="border-t border-border pt-2 mt-2">
-                <Button variant="ghost" className="w-full justify-start">
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    window.location.href = '/products';
+                  }}
+                >
                   <Search className="h-4 w-4 mr-2" />
                   Search
                 </Button>

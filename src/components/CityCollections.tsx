@@ -94,6 +94,7 @@ const CityCollections = () => {
                 <Button 
                   variant="ghost" 
                   className="w-full justify-between group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300"
+                  onClick={() => window.location.href = `/products?city=${encodeURIComponent(city.name)}`}
                 >
                   Explore Collection
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
@@ -105,7 +106,12 @@ const CityCollections = () => {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            onClick={() => window.location.href = '/products'}
+          >
             View All Collections
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
