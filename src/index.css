@@ -8,55 +8,57 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Moroccan-inspired color palette matching logo */
-    --background: 40 35% 96%;
-    --foreground: 220 40% 12%;
+    /* Rich Moroccan color palette inspired by traditional crafts */
+    --background: 35 25% 94%;
+    --foreground: 220 50% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 40% 12%;
+    --card: 35 30% 98%;
+    --card-foreground: 220 50% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 40% 12%;
+    --popover: 35 30% 98%;
+    --popover-foreground: 220 50% 8%;
 
-    /* Rich Moroccan gold primary */
-    --primary: 45 85% 45%;
-    --primary-foreground: 220 40% 12%;
-    --primary-glow: 45 90% 55%;
+    /* Deep Moroccan gold - inspired by traditional metalwork */
+    --primary: 38 75% 38%;
+    --primary-foreground: 35 30% 98%;
+    --primary-glow: 42 85% 50%;
 
-    /* Deep navy blue secondary */
-    --secondary: 220 45% 15%;
-    --secondary-foreground: 40 35% 96%;
+    /* Rich navy blue - inspired by Moroccan tiles */
+    --secondary: 218 55% 12%;
+    --secondary-foreground: 35 30% 98%;
 
-    /* Elegant teal accent */
-    --accent: 180 65% 35%;
-    --accent-foreground: 40 35% 96%;
+    /* Authentic teal - inspired by zellige tiles */
+    --accent: 182 70% 28%;
+    --accent-foreground: 35 30% 98%;
 
-    /* Warm muted tones */
-    --muted: 40 25% 90%;
-    --muted-foreground: 220 25% 35%;
+    /* Warm earthy muted tones */
+    --muted: 30 20% 88%;
+    --muted-foreground: 220 35% 25%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 35 30% 98%;
 
-    --border: 40 20% 85%;
-    --input: 40 20% 85%;
-    --ring: 45 85% 45%;
+    --border: 30 15% 80%;
+    --input: 30 15% 85%;
+    --ring: 38 75% 38%;
 
-    /* Moroccan gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-sunset: linear-gradient(135deg, hsl(45 85% 45%), hsl(180 65% 35%));
-    --gradient-blue: linear-gradient(135deg, hsl(var(--secondary)), hsl(220 55% 25%));
-    --gradient-moroccan: linear-gradient(135deg, hsl(45 85% 45%) 0%, hsl(180 65% 35%) 50%, hsl(220 45% 15%) 100%);
+    /* Authentic Moroccan gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(38 75% 38%), hsl(42 85% 50%));
+    --gradient-moroccan: linear-gradient(135deg, hsl(38 75% 38%) 0%, hsl(182 70% 28%) 50%, hsl(218 55% 12%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(38 75% 38%), hsl(25 65% 45%));
+    --gradient-blue: linear-gradient(135deg, hsl(218 55% 12%), hsl(182 70% 28%));
+    --gradient-teal: linear-gradient(135deg, hsl(182 70% 28%), hsl(175 60% 35%));
     
-    /* Shadows with Moroccan elegance */
-    --shadow-warm: 0 10px 30px -10px hsl(var(--primary) / 0.25);
-    --shadow-gold: 0 4px 20px hsl(var(--primary) / 0.15);
-    --shadow-elegant: 0 8px 25px -8px hsl(var(--secondary) / 0.2);
+    /* Premium shadows with Moroccan depth */
+    --shadow-warm: 0 12px 35px -12px hsl(38 75% 38% / 0.35);
+    --shadow-gold: 0 6px 25px hsl(38 75% 38% / 0.25);
+    --shadow-elegant: 0 10px 30px -10px hsl(218 55% 12% / 0.3);
+    --shadow-teal: 0 8px 25px -8px hsl(182 70% 28% / 0.25);
     
-    /* Smooth transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth premium transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -76,46 +78,46 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Dark mode Moroccan palette */
-    --background: 220 45% 8%;
-    --foreground: 40 35% 92%;
+    /* Rich dark mode Moroccan palette */
+    --background: 218 50% 6%;
+    --foreground: 35 25% 90%;
 
-    --card: 220 40% 10%;
-    --card-foreground: 40 35% 92%;
+    --card: 218 45% 8%;
+    --card-foreground: 35 25% 90%;
 
-    --popover: 220 40% 10%;
-    --popover-foreground: 40 35% 92%;
+    --popover: 218 45% 8%;
+    --popover-foreground: 35 25% 90%;
 
-    /* Brighter gold for dark mode */
-    --primary: 45 90% 55%;
-    --primary-foreground: 220 45% 8%;
+    /* Luminous gold for dark mode */
+    --primary: 42 90% 65%;
+    --primary-foreground: 218 50% 6%;
 
-    /* Lighter navy for dark mode */
-    --secondary: 220 35% 25%;
-    --secondary-foreground: 40 35% 92%;
+    /* Deep teal for dark mode elegance */
+    --secondary: 182 60% 35%;
+    --secondary-foreground: 218 50% 6%;
 
-    /* Bright teal for dark mode */
-    --accent: 180 70% 45%;
-    --accent-foreground: 220 45% 8%;
+    /* Bright navy accent for dark mode */
+    --accent: 218 70% 45%;
+    --accent-foreground: 35 25% 90%;
 
-    --muted: 220 35% 15%;
-    --muted-foreground: 40 25% 65%;
+    --muted: 218 40% 12%;
+    --muted-foreground: 35 20% 65%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 35 25% 90%;
 
-    --border: 220 35% 20%;
-    --input: 220 35% 20%;
-    --ring: 45 90% 55%;
+    --border: 218 35% 18%;
+    --input: 218 35% 18%;
+    --ring: 42 90% 65%;
     
-    --sidebar-background: 220 45% 8%;
-    --sidebar-foreground: 40 35% 92%;
-    --sidebar-primary: 45 90% 55%;
-    --sidebar-primary-foreground: 220 45% 8%;
-    --sidebar-accent: 220 35% 15%;
-    --sidebar-accent-foreground: 40 35% 92%;
-    --sidebar-border: 220 35% 20%;
-    --sidebar-ring: 45 90% 55%;
+    --sidebar-background: 218 50% 6%;
+    --sidebar-foreground: 35 25% 90%;
+    --sidebar-primary: 42 90% 65%;
+    --sidebar-primary-foreground: 218 50% 6%;
+    --sidebar-accent: 218 40% 12%;
+    --sidebar-accent-foreground: 35 25% 90%;
+    --sidebar-border: 218 35% 18%;
+    --sidebar-ring: 42 90% 65%;
   }
 }
 
