@@ -34,9 +34,6 @@ interface Order {
   notes: string;
   created_at: string;
   updated_at: string;
-  profiles: {
-    display_name: string;
-  } | null;
   order_items: OrderItem[];
 }
 
@@ -70,9 +67,6 @@ const AdminOrders = () => {
         .from('orders')
         .select(`
           *,
-          profiles (
-            display_name
-          ),
           order_items (
             id,
             quantity,
@@ -157,7 +151,6 @@ const AdminOrders = () => {
   const filteredOrders = orders.filter(order => {
     const matchesSearch = 
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.profiles?.display_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.phone.includes(searchTerm) ||
       order.shipping_address.toLowerCase().includes(searchTerm.toLowerCase());
     
@@ -236,7 +229,7 @@ const AdminOrders = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     <div className="flex items-center gap-2">
                       <User className="h-4 w-4 text-muted-foreground" />
-                      <span>{order.profiles?.display_name || 'Unknown Customer'}</span>
+                      <span>Customer #{order.user_id.slice(0, 8)}</span>
                     </div>
                     
                     <div className="flex items-center gap-2">
@@ -307,7 +300,7 @@ const AdminOrders = () => {
                             <div className="space-y-4">
                               <h4 className="font-semibold">{t('customerInfo')}</h4>
                               <div className="space-y-2 text-sm">
-                                <p><strong>{t('name')}:</strong> {selectedOrder.profiles?.display_name}</p>
+                                <p><strong>{t('customer')}:</strong> #{selectedOrder.user_id.slice(0, 8)}</p>
                                 <p><strong>{t('phone')}:</strong> {selectedOrder.phone}</p>
                                 <p><strong>{t('address')}:</strong> {selectedOrder.shipping_address}</p>
                                 {selectedOrder.notes && (

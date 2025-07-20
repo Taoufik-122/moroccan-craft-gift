@@ -2,10 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import Header from "./components/Header";
 import Index from "./pages/Index";
 import AllProducts from "./pages/AllProducts";
 import ProductDetail from "./pages/ProductDetail";
@@ -25,6 +26,36 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const AppContent = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="min-h-screen bg-pattern-moroccan bg-background">
+      {!isAdminRoute && <Header />}
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/products" element={<AllProducts />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cities" element={<CityCollections />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="customers" element={<AdminCustomers />} />
+          <Route path="analytics" element={<AdminAnalytics />} />
+          <Route path="settings" element={<AdminSettings />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
+  );
+};
+
 const App = () => {
   console.log('App component rendering');
   return (
@@ -36,33 +67,13 @@ const App = () => {
               <Toaster />
               <Sonner />
               <BrowserRouter>
-              <div className="min-h-screen bg-pattern-moroccan bg-background">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/products" element={<AllProducts />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/cities" element={<CityCollections />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/order-success" element={<OrderSuccess />} />
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="products" element={<AdminProducts />} />
-                    <Route path="orders" element={<AdminOrders />} />
-                    <Route path="customers" element={<AdminCustomers />} />
-                    <Route path="analytics" element={<AdminAnalytics />} />
-                    <Route path="settings" element={<AdminSettings />} />
-                  </Route>
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-            </BrowserRouter>
-          </CartProvider>
-        </AuthProvider>
-      </LanguageProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+                <AppContent />
+              </BrowserRouter>
+            </CartProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
   );
 };
 

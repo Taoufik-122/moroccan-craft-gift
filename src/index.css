@@ -9,8 +9,8 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Elegant Moroccan Craft Gift palette matching the logo */
-    --background: 42 25% 96%; /* Warm creamy beige background */
-    --foreground: 195 100% 12%; /* Deep navy text */
+    --background: 42 25% 96%; /* Warm creamy beige background #F5F0E6 */
+    --foreground: 195 100% 12%; /* Deep navy text #0C2D3C */
 
     --card: 42 30% 98%; /* Light warm card background */
     --card-foreground: 195 100% 12%;
