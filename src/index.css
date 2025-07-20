@@ -8,55 +8,68 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Rich Moroccan color palette inspired by traditional crafts */
-    --background: 35 25% 94%;
-    --foreground: 220 50% 8%;
+    /* Elegant Moroccan Craft Gift palette matching the logo */
+    --background: 42 25% 96%; /* Warm creamy beige background */
+    --foreground: 195 100% 12%; /* Deep navy text */
 
-    --card: 35 30% 98%;
-    --card-foreground: 220 50% 8%;
+    --card: 42 30% 98%; /* Light warm card background */
+    --card-foreground: 195 100% 12%;
 
-    --popover: 35 30% 98%;
-    --popover-foreground: 220 50% 8%;
+    --popover: 42 30% 98%;
+    --popover-foreground: 195 100% 12%;
 
-    /* Deep Moroccan gold - inspired by traditional metalwork */
-    --primary: 38 75% 38%;
-    --primary-foreground: 35 30% 98%;
-    --primary-glow: 42 85% 50%;
+    /* Luxurious gold - primary brand color matching logo */
+    --primary: 45 65% 58%; /* Rich gold #C49E56 */
+    --primary-foreground: 195 100% 12%;
+    --primary-glow: 51 83% 63%; /* Brighter gold #D4AF37 */
 
-    /* Rich navy blue - inspired by Moroccan tiles */
-    --secondary: 218 55% 12%;
-    --secondary-foreground: 35 30% 98%;
+    /* Deep navy - matching logo's navy elements */
+    --secondary: 195 100% 12%; /* Deep navy #0C2D3C */
+    --secondary-foreground: 42 25% 96%;
 
-    /* Authentic teal - inspired by zellige tiles */
-    --accent: 182 70% 28%;
-    --accent-foreground: 35 30% 98%;
+    /* Deep teal - matching logo's teal accents */
+    --accent: 180 100% 15%; /* Deep teal #004A48 */
+    --accent-foreground: 42 25% 96%;
 
-    /* Warm earthy muted tones */
-    --muted: 30 20% 88%;
-    --muted-foreground: 220 35% 25%;
+    /* Warm terracotta as tertiary color */
+    --tertiary: 18 50% 45%; /* Warm terracotta #B35C33 */
+    --tertiary-foreground: 42 25% 96%;
+
+    /* Burnt sienna as quaternary accent */
+    --quaternary: 15 60% 40%; /* Burnt sienna #A64B2A */
+    --quaternary-foreground: 42 25% 96%;
+
+    /* Warm muted tones */
+    --muted: 42 15% 90%;
+    --muted-foreground: 195 50% 25%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 35 30% 98%;
+    --destructive-foreground: 42 25% 96%;
 
-    --border: 30 15% 80%;
-    --input: 30 15% 85%;
-    --ring: 38 75% 38%;
+    --border: 42 12% 85%;
+    --input: 42 12% 88%;
+    --ring: 45 65% 58%;
 
-    /* Authentic Moroccan gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(38 75% 38%), hsl(42 85% 50%));
-    --gradient-moroccan: linear-gradient(135deg, hsl(38 75% 38%) 0%, hsl(182 70% 28%) 50%, hsl(218 55% 12%) 100%);
-    --gradient-sunset: linear-gradient(135deg, hsl(38 75% 38%), hsl(25 65% 45%));
-    --gradient-blue: linear-gradient(135deg, hsl(218 55% 12%), hsl(182 70% 28%));
-    --gradient-teal: linear-gradient(135deg, hsl(182 70% 28%), hsl(175 60% 35%));
+    /* Rich Moroccan gradients inspired by traditional crafts */
+    --gradient-primary: linear-gradient(135deg, hsl(45 65% 58%), hsl(51 83% 63%));
+    --gradient-moroccan: linear-gradient(135deg, hsl(45 65% 58%) 0%, hsl(180 100% 15%) 50%, hsl(195 100% 12%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(45 65% 58%), hsl(18 50% 45%));
+    --gradient-teal: linear-gradient(135deg, hsl(180 100% 15%), hsl(180 80% 25%));
+    --gradient-navy: linear-gradient(135deg, hsl(195 100% 12%), hsl(195 80% 20%));
+    --gradient-warm: linear-gradient(135deg, hsl(18 50% 45%), hsl(15 60% 40%));
     
-    /* Premium shadows with Moroccan depth */
-    --shadow-warm: 0 12px 35px -12px hsl(38 75% 38% / 0.35);
-    --shadow-gold: 0 6px 25px hsl(38 75% 38% / 0.25);
-    --shadow-elegant: 0 10px 30px -10px hsl(218 55% 12% / 0.3);
-    --shadow-teal: 0 8px 25px -8px hsl(182 70% 28% / 0.25);
+    /* Sophisticated shadows with warm tones */
+    --shadow-warm: 0 12px 35px -12px hsl(45 65% 58% / 0.35);
+    --shadow-gold: 0 6px 25px hsl(45 65% 58% / 0.25);
+    --shadow-navy: 0 10px 30px -10px hsl(195 100% 12% / 0.3);
+    --shadow-teal: 0 8px 25px -8px hsl(180 100% 15% / 0.25);
+    --shadow-elegant: 0 15px 40px -15px hsl(195 100% 12% / 0.4);
     
     /* Smooth premium transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Moroccan geometric pattern */
+    --pattern-moroccan: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C49E56' fill-opacity='0.08'%3E%3Cpath d='M30 0l15 15-15 15-15-15zM0 30l15 15-15 15-15-15zM30 30l15 15-15 15-15-15zM60 30l15 15-15 15-15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 
     --radius: 0.75rem;
 
@@ -78,37 +91,43 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Rich dark mode Moroccan palette */
-    --background: 218 50% 6%;
-    --foreground: 35 25% 90%;
+    /* Elegant dark mode palette */
+    --background: 195 100% 8%; /* Deep navy background */
+    --foreground: 42 25% 92%;
 
-    --card: 218 45% 8%;
-    --card-foreground: 35 25% 90%;
+    --card: 195 80% 10%;
+    --card-foreground: 42 25% 92%;
 
-    --popover: 218 45% 8%;
-    --popover-foreground: 35 25% 90%;
+    --popover: 195 80% 10%;
+    --popover-foreground: 42 25% 92%;
 
     /* Luminous gold for dark mode */
-    --primary: 42 90% 65%;
-    --primary-foreground: 218 50% 6%;
+    --primary: 51 83% 70%; /* Brighter gold for dark mode */
+    --primary-foreground: 195 100% 8%;
 
-    /* Deep teal for dark mode elegance */
-    --secondary: 182 60% 35%;
-    --secondary-foreground: 218 50% 6%;
+    /* Warm teal for dark mode elegance */
+    --secondary: 180 80% 40%;
+    --secondary-foreground: 195 100% 8%;
 
-    /* Bright navy accent for dark mode */
-    --accent: 218 70% 45%;
-    --accent-foreground: 35 25% 90%;
+    /* Warm terracotta accent for dark mode */
+    --accent: 18 70% 55%;
+    --accent-foreground: 195 100% 8%;
 
-    --muted: 218 40% 12%;
-    --muted-foreground: 35 20% 65%;
+    --tertiary: 18 60% 50%;
+    --tertiary-foreground: 195 100% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 35 25% 90%;
+    --quaternary: 15 70% 45%;
+    --quaternary-foreground: 195 100% 8%;
 
-    --border: 218 35% 18%;
-    --input: 218 35% 18%;
-    --ring: 42 90% 65%;
+    --muted: 195 60% 15%;
+    --muted-foreground: 42 20% 70%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 42 25% 92%;
+
+    --border: 195 50% 20%;
+    --input: 195 50% 20%;
+    --ring: 51 83% 70%;
     
     --sidebar-background: 218 50% 6%;
     --sidebar-foreground: 35 25% 90%;

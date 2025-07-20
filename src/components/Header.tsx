@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Menu, X, Globe, Search, LogIn, LogOut, Settings } from 'lucide-react';
@@ -10,11 +10,31 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   console.log('Header component rendering');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const { language, setLanguage, t } = useLanguage();
   const { user, userRole, signOut } = useAuth();
   console.log('About to call useCart');
   const { totalItems } = useCart();
   console.log('useCart successful, totalItems:', totalItems);
+
+  // Scroll behavior for hiding/showing navbar
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < lastScrollY || currentScrollY < 10) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => window.removeEventListener('scroll', controlNavbar);
+  }, [lastScrollY]);
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -31,7 +51,9 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-card shadow-warm border-b border-border sticky top-0 z-50">
+    <header className={`bg-gradient-navy/95 backdrop-blur shadow-elegant border-b border-primary/20 fixed top-0 z-50 w-full transition-transform duration-300 ${
+      isVisible ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -42,7 +64,7 @@ const Header = () => {
                 alt="Moroccan Craft Gift Logo" 
                 className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
               />
-              <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent hidden sm:block">
+              <h1 className="text-xl font-bold text-primary-glow hidden sm:block">
                 Moroccan Craft Gift
               </h1>
             </Link>
@@ -54,7 +76,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
+                className="text-primary-glow hover:text-primary transition-colors duration-200 font-medium"
               >
                 {item.name}
               </Link>
@@ -67,7 +89,7 @@ const Header = () => {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="hidden sm:flex"
+              className="hidden sm:flex text-primary-glow hover:text-primary hover:bg-primary/10"
               onClick={() => window.location.href = '/products'}
             >
               <Search className="h-4 w-4" />
@@ -75,7 +97,7 @@ const Header = () => {
 
             {/* Language Selector */}
             <div className="relative group">
-              <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+              <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10">
                 <Globe className="h-4 w-4" />
                 <span className="hidden sm:inline">{languages.find(l => l.code === language)?.flag}</span>
               </Button>
@@ -87,7 +109,7 @@ const Header = () => {
                 {/* Admin Button - Only show for admin users */}
                 {userRole === 'admin' && (
                   <Link to="/admin">
-                    <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                    <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10">
                       <Settings className="h-4 w-4" />
                       <span className="hidden sm:inline">Admin</span>
                     </Button>
@@ -99,7 +121,7 @@ const Header = () => {
                   variant="ghost" 
                   size="sm" 
                   onClick={signOut}
-                  className="flex items-center space-x-1"
+                  className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10"
                 >
                   <LogOut className="h-4 w-4" />
                   <span className="hidden sm:inline">Logout</span>
@@ -107,7 +129,7 @@ const Header = () => {
               </div>
             ) : (
               <Link to="/auth">
-                <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10">
                   <LogIn className="h-4 w-4" />
                   <span className="hidden sm:inline">Login</span>
                 </Button>
@@ -116,12 +138,11 @@ const Header = () => {
 
             {/* Cart */}
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="relative">
+              <Button variant="ghost" size="sm" className="relative text-primary-glow hover:text-primary hover:bg-primary/10">
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
                   <Badge 
-                    variant="destructive" 
-                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
+                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-primary text-secondary"
                   >
                     {totalItems}
                   </Badge>
@@ -133,7 +154,7 @@ const Header = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden"
+              className="md:hidden text-primary-glow hover:text-primary hover:bg-primary/10"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -149,7 +170,7 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted rounded-md transition-colors duration-200"
+                  className="block px-3 py-2 text-primary-glow hover:text-primary hover:bg-primary/10 rounded-md transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}

@@ -45,6 +45,14 @@ export default {
 					DEFAULT: 'hsl(var(--accent))',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
+				tertiary: {
+					DEFAULT: 'hsl(var(--tertiary))',
+					foreground: 'hsl(var(--tertiary-foreground))'
+				},
+				quaternary: {
+					DEFAULT: 'hsl(var(--quaternary))',
+					foreground: 'hsl(var(--quaternary-foreground))'
+				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
@@ -73,14 +81,17 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-moroccan': 'var(--gradient-moroccan)',
 				'gradient-sunset': 'var(--gradient-sunset)',
-				'gradient-blue': 'var(--gradient-blue)',
-				'gradient-teal': 'var(--gradient-teal)'
+				'gradient-teal': 'var(--gradient-teal)',
+				'gradient-navy': 'var(--gradient-navy)',
+				'gradient-warm': 'var(--gradient-warm)',
+				'pattern-moroccan': 'var(--pattern-moroccan)'
 			},
 			boxShadow: {
 				'warm': 'var(--shadow-warm)',
 				'gold': 'var(--shadow-gold)',
-				'elegant': 'var(--shadow-elegant)',
-				'teal': 'var(--shadow-teal)'
+				'navy': 'var(--shadow-navy)',
+				'teal': 'var(--shadow-teal)',
+				'elegant': 'var(--shadow-elegant)'
 			},
 			transitionProperty: {
 				'smooth': 'var(--transition-smooth)'
