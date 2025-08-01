@@ -6,6 +6,7 @@ interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  selectedVariations?: Record<string, any>;
 }
 
 interface CartContextType {

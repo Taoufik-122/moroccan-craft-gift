@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import ProductVariations from '@/components/ProductVariations';
 
 type Product = Tables<'products'> & {
   categories: Tables<'categories'>;
@@ -25,6 +26,7 @@ const ProductDetail = () => {
   const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [selectedVariations, setSelectedVariations] = useState<Record<string, any>>({});
 
   useEffect(() => {
     if (id) {
@@ -121,11 +123,15 @@ const ProductDetail = () => {
 
   const handleAddToCart = (product: Product) => {
     const productName = getProductName(product);
+    const variationAdjustment = Object.values(selectedVariations).reduce((total: number, variation: any) => total + variation.price_adjustment, 0);
+    const finalPrice = product.price + variationAdjustment;
+    
     addItem({
       id: product.id,
       name: productName,
-      price: product.price,
-      image: product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'
+      price: finalPrice,
+      image: product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500',
+      selectedVariations
     });
     
     toast({
@@ -217,7 +223,7 @@ const ProductDetail = () => {
             </div>
 
             <div className="text-4xl font-bold text-primary">
-              ${product.price}
+              ${(product.price + Object.values(selectedVariations).reduce((total: number, variation: any) => total + variation.price_adjustment, 0)).toFixed(2)}
             </div>
 
             <div className="space-y-4">
@@ -226,6 +232,12 @@ const ProductDetail = () => {
                 {getProductDescription(product) || "This beautiful handcrafted item represents the finest artisanal traditions of Morocco. Each piece is carefully made by skilled craftspeople using time-honored techniques passed down through generations."}
               </p>
             </div>
+
+            {/* Product Variations */}
+            <ProductVariations 
+              productId={product.id} 
+              onSelectionChange={setSelectedVariations}
+            />
 
             <div className="space-y-4">
               <h3 className="text-xl font-semibold">Product Details</h3>

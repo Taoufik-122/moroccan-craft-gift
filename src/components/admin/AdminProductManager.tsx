@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Edit, Trash2, Package, Archive } from 'lucide-react';
+import ProductVariationManager from './ProductVariationManager';
 
 interface Product {
   id: string;
@@ -418,10 +419,17 @@ const AdminProductManager = () => {
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   {t('cancel')}
                 </Button>
-                <Button type="submit">
-                  {editingProduct ? t('updateProduct') : t('createProduct')}
+                <Button type="submit" disabled={loading}>
+                  {loading ? t('saving') : (editingProduct ? t('updateProduct') : t('addProduct'))}
                 </Button>
               </DialogFooter>
+              
+              {/* Product Variations Section */}
+              {editingProduct && (
+                <div className="pt-6 border-t">
+                  <ProductVariationManager productId={editingProduct.id} />
+                </div>
+              )}
             </form>
           </DialogContent>
         </Dialog>

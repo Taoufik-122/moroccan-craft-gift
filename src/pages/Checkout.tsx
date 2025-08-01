@@ -10,12 +10,15 @@ import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Checkout = () => {
   const { items, totalPrice, clearCart } = useCart();
   const { t } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
   const [sameAsShipping, setSameAsShipping] = useState(true);
 
@@ -59,8 +62,48 @@ const Checkout = () => {
     e.preventDefault();
     setIsProcessing(true);
 
-    // Simulate payment processing
-    setTimeout(() => {
+    try {
+      if (!user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to place an order.",
+          variant: "destructive",
+        });
+        navigate('/auth');
+        return;
+      }
+
+      // Create order in database
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          user_id: user.id,
+          total_amount: finalTotal,
+          status: 'pending',
+          shipping_address: `${formData.shippingAddress}, ${formData.shippingCity}, ${formData.shippingPostalCode}, ${formData.shippingCountry}`,
+          phone: formData.shippingPhone,
+          notes: ''
+        })
+        .select()
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Create order items
+      const orderItems = items.map(item => ({
+        order_id: order.id,
+        product_id: item.id,
+        quantity: item.quantity,
+        unit_price: item.price,
+        selected_variations: item.selectedVariations || {}
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems);
+
+      if (itemsError) throw itemsError;
+
       setIsProcessing(false);
       clearCart();
       toast({
@@ -68,7 +111,15 @@ const Checkout = () => {
         description: "Thank you for your purchase. You will receive a confirmation email shortly.",
       });
       navigate('/order-success');
-    }, 3000);
+    } catch (error) {
+      console.error('Error placing order:', error);
+      setIsProcessing(false);
+      toast({
+        title: "Order Failed",
+        description: "There was an error placing your order. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (items.length === 0) {
