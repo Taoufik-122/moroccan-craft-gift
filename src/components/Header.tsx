@@ -51,7 +51,7 @@ const Header = () => {
   ];
 
   return (
-    <header className={`bg-gradient-navy/95 backdrop-blur shadow-elegant border-b border-primary/20 fixed top-0 z-50 w-full transition-transform duration-300 ${
+    <header className={`bg-gradient-moroccan backdrop-blur-md shadow-elegant border-b border-primary/30 fixed top-0 z-50 w-full transition-all duration-500 ${
       isVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +64,7 @@ const Header = () => {
                 alt="Moroccan Craft Gift Logo" 
                 className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
               />
-              <h1 className="text-xl font-bold text-primary-glow hidden sm:block">
+              <h1 className="text-xl font-bold text-card hidden sm:block drop-shadow-sm">
                 Moroccan Craft Gift
               </h1>
             </Link>
@@ -76,9 +76,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-primary-glow hover:text-primary transition-colors duration-200 font-medium"
+                className="text-card hover:text-primary-glow transition-colors duration-300 font-medium relative group"
               >
                 {item.name}
+                <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary-glow scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
               </Link>
             ))}
           </nav>
@@ -89,7 +90,7 @@ const Header = () => {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="hidden sm:flex text-primary-glow hover:text-primary hover:bg-primary/10"
+              className="hidden sm:flex text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30"
               onClick={() => window.location.href = '/products'}
             >
               <Search className="h-4 w-4" />
@@ -97,7 +98,7 @@ const Header = () => {
 
             {/* Language Selector */}
             <div className="relative group">
-              <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10">
+              <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30">
                 <Globe className="h-4 w-4" />
                 <span className="hidden sm:inline">{languages.find(l => l.code === language)?.flag}</span>
               </Button>
@@ -109,7 +110,7 @@ const Header = () => {
                 {/* Admin Button - Only show for admin users */}
                 {userRole === 'admin' && (
                   <Link to="/admin">
-                    <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10">
+                    <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30">
                       <Settings className="h-4 w-4" />
                       <span className="hidden sm:inline">Admin</span>
                     </Button>
@@ -121,7 +122,7 @@ const Header = () => {
                   variant="ghost" 
                   size="sm" 
                   onClick={signOut}
-                  className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10"
+                  className="flex items-center space-x-1 text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30"
                 >
                   <LogOut className="h-4 w-4" />
                   <span className="hidden sm:inline">Logout</span>
@@ -129,7 +130,7 @@ const Header = () => {
               </div>
             ) : (
               <Link to="/auth">
-                <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-primary-glow hover:text-primary hover:bg-primary/10">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30">
                   <LogIn className="h-4 w-4" />
                   <span className="hidden sm:inline">Login</span>
                 </Button>
@@ -138,11 +139,11 @@ const Header = () => {
 
             {/* Cart */}
             <Link to="/cart">
-              <Button variant="ghost" size="sm" className="relative text-primary-glow hover:text-primary hover:bg-primary/10">
+              <Button variant="ghost" size="sm" className="relative text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30">
                 <ShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
                   <Badge 
-                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-primary text-secondary"
+                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-primary-glow text-secondary shadow-gold border border-primary/30"
                   >
                     {totalItems}
                   </Badge>
@@ -154,7 +155,7 @@ const Header = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden text-primary-glow hover:text-primary hover:bg-primary/10"
+              className="md:hidden text-card hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -164,19 +165,19 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-border">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-card">
+          <div className="md:hidden border-t border-primary/30 backdrop-blur-md">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-gradient-navy/90 backdrop-blur-md">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="block px-3 py-2 text-primary-glow hover:text-primary hover:bg-primary/10 rounded-md transition-colors duration-200"
+                  className="block px-3 py-2 text-card hover:text-primary-glow hover:bg-card/15 rounded-lg transition-all duration-300 border border-transparent hover:border-primary-glow/30 backdrop-blur-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t border-border pt-2 mt-2">
+              <div className="border-t border-primary/30 pt-2 mt-2">
                 <Button 
                   variant="ghost" 
                   className="w-full justify-start"
