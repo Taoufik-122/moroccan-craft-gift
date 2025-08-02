@@ -16,9 +16,10 @@ interface ProductVariation {
 interface ProductVariationsProps {
   productId: string;
   onSelectionChange: (selections: Record<string, ProductVariation>) => void;
+  onValidationChange: (isValid: boolean) => void;
 }
 
-const ProductVariations: React.FC<ProductVariationsProps> = ({ productId, onSelectionChange }) => {
+const ProductVariations: React.FC<ProductVariationsProps> = ({ productId, onSelectionChange, onValidationChange }) => {
   const { t } = useLanguage();
   const [variations, setVariations] = useState<ProductVariation[]>([]);
   const [selections, setSelections] = useState<Record<string, ProductVariation>>({});
@@ -31,6 +32,18 @@ const ProductVariations: React.FC<ProductVariationsProps> = ({ productId, onSele
   useEffect(() => {
     onSelectionChange(selections);
   }, [selections, onSelectionChange]);
+
+  useEffect(() => {
+    if (variations.length === 0) {
+      onValidationChange(true);
+      return;
+    }
+
+    const availableTypes = [...new Set(variations.map(v => v.variation_type))];
+    const selectedTypes = Object.keys(selections);
+    const isValid = availableTypes.every(type => selectedTypes.includes(type));
+    onValidationChange(isValid);
+  }, [selections, variations, onValidationChange]);
 
   const fetchVariations = async () => {
     try {
@@ -108,7 +121,10 @@ const ProductVariations: React.FC<ProductVariationsProps> = ({ productId, onSele
     <div className="space-y-6">
       {Object.entries(groupedVariations).map(([type, typeVariations]) => (
         <div key={type} className="space-y-3">
-          <h4 className="font-semibold text-lg">{getVariationTypeLabel(type)}</h4>
+          <h4 className="font-semibold text-lg">
+            {getVariationTypeLabel(type)}
+            <span className="text-destructive ml-1">*</span>
+          </h4>
           <div className="flex flex-wrap gap-2">
             {typeVariations.map((variation) => (
               <Button

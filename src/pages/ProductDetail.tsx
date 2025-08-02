@@ -27,6 +27,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedVariations, setSelectedVariations] = useState<Record<string, any>>({});
+  const [canAddToCart, setCanAddToCart] = useState(true);
 
   useEffect(() => {
     if (id) {
@@ -237,6 +238,7 @@ const ProductDetail = () => {
             <ProductVariations 
               productId={product.id} 
               onSelectionChange={setSelectedVariations}
+              onValidationChange={setCanAddToCart}
             />
 
             <div className="space-y-4">
@@ -266,11 +268,17 @@ const ProductDetail = () => {
                 onClick={() => handleAddToCart(product)}
                 size="lg"
                 className="flex-1 flex items-center justify-center gap-2"
+                disabled={!canAddToCart}
               >
                 <ShoppingCart className="w-5 h-5" />
-                Add to Cart
+                {canAddToCart ? 'Add to Cart' : 'Select All Options'}
               </Button>
-              <Button size="lg" variant="outline" className="px-8">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="px-8"
+                disabled={!canAddToCart}
+              >
                 Buy Now
               </Button>
             </div>
