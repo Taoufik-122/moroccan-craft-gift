@@ -8,36 +8,36 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Elegant Moroccan Craft Gift palette matching the logo */
-    --background: 42 25% 96%; /* Warm creamy beige background #F5F0E6 */
-    --foreground: 195 100% 12%; /* Deep navy text #0C2D3C */
+    /* Authentic Moroccan Zellige-inspired palette */
+    --background: 42 35% 95%; /* Soft cream background inspired by Zellige cream */
+    --foreground: 220 85% 15%; /* Deep Zellige blue text for elegance */
 
-    --card: 42 30% 98%; /* Light warm card background */
-    --card-foreground: 195 100% 12%;
+    --card: 42 40% 97%; /* Warm cream card background */
+    --card-foreground: 220 85% 15%;
 
-    --popover: 42 30% 98%;
-    --popover-foreground: 195 100% 12%;
+    --popover: 42 40% 97%;
+    --popover-foreground: 220 85% 15%;
 
-    /* Luxurious gold - primary brand color matching logo */
-    --primary: 45 65% 58%; /* Rich gold #C49E56 */
-    --primary-foreground: 195 100% 12%;
-    --primary-glow: 51 83% 63%; /* Brighter gold #D4AF37 */
+    /* Mustard yellow primary - inspired by traditional Zellige golden tones */
+    --primary: 45 85% 55%; /* Rich mustard yellow #E6B800 */
+    --primary-foreground: 220 85% 15%;
+    --primary-glow: 48 95% 65%; /* Bright golden glow */
 
-    /* Deep navy - matching logo's navy elements */
-    --secondary: 195 100% 12%; /* Deep navy #0C2D3C */
-    --secondary-foreground: 42 25% 96%;
+    /* Deep Zellige blue - the signature color */
+    --secondary: 220 85% 25%; /* Rich Zellige blue #1E3B82 */
+    --secondary-foreground: 42 35% 95%;
 
-    /* Deep teal - matching logo's teal accents */
-    --accent: 180 100% 15%; /* Deep teal #004A48 */
-    --accent-foreground: 42 25% 96%;
+    /* Forest green - traditional Zellige accent */
+    --accent: 155 70% 25%; /* Deep forest green #0D4F3C */
+    --accent-foreground: 42 35% 95%;
 
-    /* Warm terracotta as tertiary color */
-    --tertiary: 18 50% 45%; /* Warm terracotta #B35C33 */
-    --tertiary-foreground: 42 25% 96%;
+    /* Warm terracotta - classic Zellige earthtone */
+    --tertiary: 18 75% 50%; /* Rich terracotta #CC6633 */
+    --tertiary-foreground: 42 35% 95%;
 
-    /* Burnt sienna as quaternary accent */
-    --quaternary: 15 60% 40%; /* Burnt sienna #A64B2A */
-    --quaternary-foreground: 42 25% 96%;
+    /* Deep Zellige blue variant */
+    --quaternary: 220 90% 20%; /* Deeper blue #0F2A6B */
+    --quaternary-foreground: 42 35% 95%;
 
     /* Warm muted tones */
     --muted: 42 15% 90%;
@@ -50,26 +50,26 @@ All colors MUST be HSL.
     --input: 42 12% 88%;
     --ring: 45 65% 58%;
 
-    /* Rich Moroccan gradients inspired by traditional crafts */
-    --gradient-primary: linear-gradient(135deg, hsl(45 65% 58%), hsl(51 83% 63%));
-    --gradient-moroccan: linear-gradient(135deg, hsl(45 65% 58%) 0%, hsl(180 100% 15%) 50%, hsl(195 100% 12%) 100%);
-    --gradient-sunset: linear-gradient(135deg, hsl(45 65% 58%), hsl(18 50% 45%));
-    --gradient-teal: linear-gradient(135deg, hsl(180 100% 15%), hsl(180 80% 25%));
-    --gradient-navy: linear-gradient(135deg, hsl(195 100% 12%), hsl(195 80% 20%));
-    --gradient-warm: linear-gradient(135deg, hsl(18 50% 45%), hsl(15 60% 40%));
+    /* Authentic Zellige-inspired gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(45 85% 55%), hsl(48 95% 65%));
+    --gradient-moroccan: linear-gradient(135deg, hsl(220 85% 25%) 0%, hsl(155 70% 25%) 50%, hsl(18 75% 50%) 100%);
+    --gradient-sunset: linear-gradient(135deg, hsl(45 85% 55%), hsl(18 75% 50%));
+    --gradient-forest: linear-gradient(135deg, hsl(155 70% 25%), hsl(155 60% 35%));
+    --gradient-navy: linear-gradient(135deg, hsl(220 85% 25%), hsl(220 90% 20%));
+    --gradient-warm: linear-gradient(135deg, hsl(18 75% 50%), hsl(18 65% 45%));
     
-    /* Sophisticated shadows with warm tones */
-    --shadow-warm: 0 12px 35px -12px hsl(45 65% 58% / 0.35);
-    --shadow-gold: 0 6px 25px hsl(45 65% 58% / 0.25);
-    --shadow-navy: 0 10px 30px -10px hsl(195 100% 12% / 0.3);
-    --shadow-teal: 0 8px 25px -8px hsl(180 100% 15% / 0.25);
-    --shadow-elegant: 0 15px 40px -15px hsl(195 100% 12% / 0.4);
+    /* Zellige-inspired sophisticated shadows */
+    --shadow-warm: 0 12px 35px -12px hsl(18 75% 50% / 0.35);
+    --shadow-gold: 0 6px 25px hsl(45 85% 55% / 0.25);
+    --shadow-navy: 0 10px 30px -10px hsl(220 85% 25% / 0.3);
+    --shadow-forest: 0 8px 25px -8px hsl(155 70% 25% / 0.25);
+    --shadow-elegant: 0 15px 40px -15px hsl(220 85% 25% / 0.4);
     
     /* Smooth premium transitions */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Moroccan geometric pattern */
-    --pattern-moroccan: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C49E56' fill-opacity='0.08'%3E%3Cpath d='M30 0l15 15-15 15-15-15zM0 30l15 15-15 15-15-15zM30 30l15 15-15 15-15-15zM60 30l15 15-15 15-15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    --pattern-moroccan: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E6B800' fill-opacity='0.08'%3E%3Cpath d='M30 0l15 15-15 15-15-15zM0 30l15 15-15 15-15-15zM30 30l15 15-15 15-15-15zM60 30l15 15-15 15-15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 
     --radius: 0.75rem;
 
@@ -91,43 +91,43 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Elegant dark mode palette */
-    --background: 195 100% 8%; /* Deep navy background */
-    --foreground: 42 25% 92%;
+    /* Elegant Zellige dark mode palette */
+    --background: 220 85% 8%; /* Deep Zellige blue background */
+    --foreground: 42 35% 92%;
 
-    --card: 195 80% 10%;
-    --card-foreground: 42 25% 92%;
+    --card: 220 70% 12%;
+    --card-foreground: 42 35% 92%;
 
-    --popover: 195 80% 10%;
-    --popover-foreground: 42 25% 92%;
+    --popover: 220 70% 12%;
+    --popover-foreground: 42 35% 92%;
 
-    /* Luminous gold for dark mode */
-    --primary: 51 83% 70%; /* Brighter gold for dark mode */
-    --primary-foreground: 195 100% 8%;
+    /* Luminous mustard for dark mode */
+    --primary: 48 95% 70%; /* Brighter mustard for dark mode */
+    --primary-foreground: 220 85% 8%;
 
-    /* Warm teal for dark mode elegance */
-    --secondary: 180 80% 40%;
-    --secondary-foreground: 195 100% 8%;
+    /* Warm forest green for dark mode elegance */
+    --secondary: 155 60% 45%;
+    --secondary-foreground: 220 85% 8%;
 
     /* Warm terracotta accent for dark mode */
-    --accent: 18 70% 55%;
-    --accent-foreground: 195 100% 8%;
+    --accent: 18 75% 60%;
+    --accent-foreground: 220 85% 8%;
 
-    --tertiary: 18 60% 50%;
-    --tertiary-foreground: 195 100% 8%;
+    --tertiary: 18 70% 55%;
+    --tertiary-foreground: 220 85% 8%;
 
-    --quaternary: 15 70% 45%;
-    --quaternary-foreground: 195 100% 8%;
+    --quaternary: 220 80% 30%;
+    --quaternary-foreground: 42 35% 92%;
 
-    --muted: 195 60% 15%;
-    --muted-foreground: 42 20% 70%;
+    --muted: 220 60% 18%;
+    --muted-foreground: 42 25% 70%;
 
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 42 25% 92%;
+    --destructive-foreground: 42 35% 92%;
 
-    --border: 195 50% 20%;
-    --input: 195 50% 20%;
-    --ring: 51 83% 70%;
+    --border: 220 50% 25%;
+    --input: 220 50% 25%;
+    --ring: 48 95% 70%;
     
     --sidebar-background: 218 50% 6%;
     --sidebar-foreground: 35 25% 90%;

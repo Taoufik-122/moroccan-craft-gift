@@ -81,7 +81,7 @@ export default {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-moroccan': 'var(--gradient-moroccan)',
 				'gradient-sunset': 'var(--gradient-sunset)',
-				'gradient-teal': 'var(--gradient-teal)',
+				'gradient-forest': 'var(--gradient-forest)',
 				'gradient-navy': 'var(--gradient-navy)',
 				'gradient-warm': 'var(--gradient-warm)',
 				'pattern-moroccan': 'var(--pattern-moroccan)'
@@ -90,7 +90,7 @@ export default {
 				'warm': 'var(--shadow-warm)',
 				'gold': 'var(--shadow-gold)',
 				'navy': 'var(--shadow-navy)',
-				'teal': 'var(--shadow-teal)',
+				'forest': 'var(--shadow-forest)',
 				'elegant': 'var(--shadow-elegant)'
 			},
 			transitionProperty: {
