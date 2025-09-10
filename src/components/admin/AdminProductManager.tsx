@@ -48,6 +48,7 @@ const AdminProductManager = () => {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+const [isUploading, setIsUploading] = useState(false);
 
   const [formData, setFormData] = useState({
     name_en: '',
@@ -265,6 +266,49 @@ const AdminProductManager = () => {
     }
   };
 
+
+
+const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  setIsUploading(true);
+
+  try {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `product-images/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('product-images') // تأكد أن لديك bucket بهذا الاسم في Supabase
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data: publicUrlData } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(filePath);
+
+    if (publicUrlData?.publicUrl) {
+      setFormData(prev => ({ ...prev, image_url: publicUrlData.publicUrl }));
+      toast({
+        title: t('success'),
+        description: 'Image uploaded successfully',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    toast({
+      title: t('error'),
+      description: 'Failed to upload image',
+      variant: 'destructive',
+    });
+  } finally {
+    setIsUploading(false);
+  }
+};
+
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -403,6 +447,18 @@ const AdminProductManager = () => {
                     required
                   />
                 </div>
+    <div>
+                  <Label htmlFor="image_file">Upload Image (Local)</Label>
+                  <Input
+                    id="image_file"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    disabled={isUploading}
+                  />
+                </div>
+
+                <div className="text-center text-sm text-muted-foreground my-2">OR</div>
 
                 <div className="space-y-2">
                   <Label htmlFor="image_url">{t('imageUrl')}</Label>

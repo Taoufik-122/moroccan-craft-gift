@@ -156,7 +156,7 @@ const FeaturedProducts = () => {
                 
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-primary">${product.price}</span>
+                    <span className="text-2xl font-bold text-primary">DH  {product.price}</span>
                   </div>
                   
                   <Button 

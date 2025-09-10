@@ -2,6 +2,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, MapPin } from 'lucide-react';
+import fesCover from "@/assets/Fes_Maroc_Cover-scaled.webp";
+import merackechCover from "@/assets/visit-marrakech-cover.jpg";
+import rabatCover from "@/assets/rabat-morocco-may-18-2025-600nw-2629260395.jpg";
+import tetouan from "@/assets/tetouan.jpg";
 
 const CityCollections = () => {
   const cities = [
@@ -11,7 +15,7 @@ const CityCollections = () => {
       specialty: "Copperware & Ceramics",
       description: "Intricate metalwork and traditional pottery from the artisan quarter",
       products: 120,
-      image: "photo-1618160702438-9b02ab6515c9", // placeholder
+      image: fesCover, // placeholder
       gradient: "from-primary to-primary-glow"
     },
     {
@@ -20,7 +24,7 @@ const CityCollections = () => {
       specialty: "Leather Goods",
       description: "Premium leather products from the famous tanneries",
       products: 85,
-      image: "photo-1721322800607-8c38375eef04", // placeholder
+      image: merackechCover, // placeholder
       gradient: "from-secondary to-blue-600"
     },
     {
@@ -29,7 +33,7 @@ const CityCollections = () => {
       specialty: "Carpets & Textiles",
       description: "Handwoven carpets and traditional textiles",
       products: 95,
-      image: "photo-1482881497185-d4a9ddbe4151", // placeholder
+      image: rabatCover, // placeholder
       gradient: "from-accent to-yellow-500"
     },
     {
@@ -38,7 +42,7 @@ const CityCollections = () => {
       specialty: "Embroidery",
       description: "Exquisite embroidered fabrics and traditional clothing",
       products: 67,
-      image: "photo-1466442929976-97f336a657be", // placeholder
+      image: tetouan, // placeholder
       gradient: "from-emerald-500 to-teal-600"
     }
   ];
@@ -66,7 +70,14 @@ const CityCollections = () => {
               key={city.name}
               className="group cursor-pointer hover:shadow-warm transition-all duration-300 border-border/50 hover:border-primary/30 overflow-hidden"
             >
-              <div className={`h-48 bg-gradient-to-br ${city.gradient} relative overflow-hidden`}>
+              <div 
+  className="h-48 relative overflow-hidden"
+  style={{
+    backgroundImage: `url(${city.image})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center"
+  }}
+>
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="absolute top-4 left-4">
                   <MapPin className="h-5 w-5 text-white mb-2" />

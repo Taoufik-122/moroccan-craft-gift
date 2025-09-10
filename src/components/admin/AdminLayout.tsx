@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, NavLink, useLocation } from 'react-router-dom';
+import { Link , Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 // Using custom sidebar implementation since @radix-ui/react-sidebar is not available
@@ -81,11 +81,14 @@ export function AdminSidebar({ collapsed, onToggle }: { collapsed: boolean; onTo
           <Button variant="ghost" size="sm" onClick={onToggle}>
             <MenuIcon className="h-4 w-4" />
           </Button>
-          {!collapsed && (
-            <h2 className="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              {t('adminPanel')}
-            </h2>
-          )}
+{!collapsed && (
+  <Link to="/">
+    <span className="cursor-pointer text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      {t('adminPanel')}
+    </span>
+  </Link>
+)}
+
         </div>
       </div>
 

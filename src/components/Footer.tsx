@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { HashLink as Link } from "react-router-hash-link";
 import { 
   Mail, 
   Phone, 
@@ -17,6 +18,16 @@ import {
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+const supportLinks = [
+  { label: "FAQ", path: "/support#faq" },
+  { label: "Shipping Info", path: "/support#shipping" },
+  { label: "Returns", path: "/support#returns" },
+  { label: "Size Guide", path: "/support#size" },
+   { label: "Care Instructions", path: "/Care#CareInstructions" },
+ { label: "About Us", path: "/About" },
+];
+
+ 
 
   const footerLinks = {
     shop: [
@@ -43,18 +54,21 @@ const Footer = () => {
       'Care Instructions',
       'Contact Us'
     ],
-    company: [
-      'About Us',
-      'Our Artisans',
-      'Sustainability',
-      'Press',
-      'Careers',
-      'Blog'
-    ]
+ 
+company: [
+  { label: 'About Us', path: '/about#about' },
+  { label: 'Our Artisans', path: '/about#artisans' },
+  { label: 'Sustainability', path: '/about#sustainability' },
+  { label: 'Press', path: '/about#press' },
+  { label: 'Careers', path: '/about#careers' },
+  { label: 'Blog', path: '/about#blog' },
+]
+
   };
 
+
   const features = [
-    { icon: Truck, text: 'Free shipping over $100' },
+    { icon: Truck, text: 'Enjoy free delivery in Morocco on purchases above $500 ' },
     { icon: Shield, text: 'Authenticity guaranteed' },
     { icon: Star, text: '4.9/5 customer rating' },
     { icon: CreditCard, text: 'Secure payments' }
@@ -109,60 +123,79 @@ const Footer = () => {
           </div>
 
           {/* Shop Links */}
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Shop</h3>
-            <ul className="space-y-3">
-              {footerLinks.shop.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+       <ul className="space-y-3">
+  {footerLinks.shop.map((link) => (
+    <li key={link}>
+      <Link
+        to="/products"
+        state={{ category: link === 'All Products' ? 'all' : link }}
+        className="text-muted-foreground hover:text-primary transition-colors duration-200"
+      >
+        {link}
+      </Link>
+    </li>
+  ))}
+</ul>
+          {/* Cities Links <Link
+        to="/products"
+        state={{ city: link }}
+        className="text-muted-foreground hover:text-primary transition-colors duration-200"
+      >
+        {link}
+      </Link> */}
+<ul className="space-y-3">
+  {footerLinks.cities.map((cityName) => (
+    <li key={cityName}>
+      <Link 
+        to={`/products?city=${encodeURIComponent(cityName)}`} 
+        className="text-muted-foreground hover:text-primary transition-colors duration-200"
+      >
+        {cityName}
+      </Link>
+    </li>
+  ))}
+</ul>
 
-          {/* Cities Links */}
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">By Cities</h3>
-            <ul className="space-y-3">
-              {footerLinks.cities.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
 
           {/* Support Links */}
           <div>
             <h3 className="font-semibold text-foreground mb-4">Support</h3>
             <ul className="space-y-3">
-              {footerLinks.support.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200">
-                    {link}
-                  </a>
-                </li>
-              ))}
+  {supportLinks.map((link) => (
+    <li key={link.label}>
+      <Link
+        to={link.path}
+        className="text-muted-foreground hover:text-primary transition-colors duration-200"
+      >
+        {link.label}
+      </Link>
+    </li>
+  ))}
+
+
+
             </ul>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition-colors duration-200">
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Company Links */}
+
+<div>
+  <h3 className="font-semibold text-foreground mb-4">Company</h3>
+  <ul className="space-y-3">
+    {footerLinks.company.map((link) => (
+      <li key={link.label}>
+        <Link
+          to={link.path}
+          className="text-muted-foreground hover:text-primary transition-colors duration-200"
+        >
+          {link.label}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
+
+
         </div>
 
         {/* Contact Info */}
@@ -172,21 +205,22 @@ const Footer = () => {
               <MapPin className="h-5 w-5 text-primary" />
               <div>
                 <p className="font-medium text-foreground">Visit Our Showroom</p>
-                <p className="text-sm text-muted-foreground">Medina, Marrakech, Morocco</p>
+                <p className="text-sm text-muted-foreground">Medina, Fes, Morocco</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <Phone className="h-5 w-5 text-primary" />
               <div>
                 <p className="font-medium text-foreground">Call Us</p>
-                <p className="text-sm text-muted-foreground">+212 (0)24 123 456</p>
+                <p className="text-sm text-muted-foreground">+212 687879451</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5 text-primary" />
               <div>
                 <p className="font-medium text-foreground">Email Us</p>
-                <p className="text-sm text-muted-foreground">hello@soukmorocco.com</p>
+                <p className="text-sm text-muted-foreground">craftmoroccan96@gmail.com
+</p>
               </div>
             </div>
           </div>

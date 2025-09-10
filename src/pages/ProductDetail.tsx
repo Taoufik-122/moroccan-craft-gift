@@ -182,27 +182,33 @@ const ProductDetail = () => {
         {/* Product Details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Product Image */}
-          <div className="relative">
-            <img 
-              src={product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'}
-              alt={getProductName(product)}
-              className="w-full h-96 lg:h-[600px] object-cover rounded-2xl"
-            />
-            <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className={`absolute top-4 right-4 p-3 rounded-full transition-colors ${
-                isFavorite
-                  ? 'bg-red-500 text-white' 
-                  : 'bg-white/80 text-gray-600 hover:bg-red-500 hover:text-white'
-              }`}
-            >
-              <Heart className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} />
-            </button>
-            
-            <Badge className="absolute top-4 left-4 bg-primary text-lg px-4 py-2">
-              {getCategoryName(product.categories)}
-            </Badge>
-          </div>
+        {/* Product Image */}
+<div className="relative">
+  <img 
+    src={
+      Object.values(selectedVariations).find((v: any) => v.image_url)?.image_url ||
+      product.image_url ||
+      'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'
+    }
+    alt={getProductName(product)}
+    className="w-full h-96 lg:h-[600px] object-cover rounded-2xl"
+  />
+  <button
+    onClick={() => setIsFavorite(!isFavorite)}
+    className={`absolute top-4 right-4 p-3 rounded-full transition-colors ${
+      isFavorite
+        ? 'bg-red-500 text-white' 
+        : 'bg-white/80 text-gray-600 hover:bg-red-500 hover:text-white'
+    }`}
+  >
+    <Heart className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} />
+  </button>
+  
+  <Badge className="absolute top-4 left-4 bg-primary text-lg px-4 py-2">
+    {getCategoryName(product.categories)}
+  </Badge>
+</div>
+
 
           {/* Product Info */}
           <div className="space-y-6">
@@ -219,7 +225,7 @@ const ProductDetail = () => {
                 />
               ))}
               <span className="text-lg text-muted-foreground ml-2">
-                (4.5) • 127 reviews
+                (4.5) • 126 reviews
               </span>
             </div>
 

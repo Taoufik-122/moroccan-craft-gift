@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, MapPin, Users, Award } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import fesCover from "@/assets/Fes_Maroc_Cover-scaled.webp";
 
 const CityCollections = () => {
   const { t } = useLanguage();
@@ -16,7 +17,7 @@ const CityCollections = () => {
       products: 120,
       artisans: 45,
       established: "9th Century",
-      image: "photo-1618160702438-9b02ab6515c9",
+      image: fesCover,
       gradient: "from-primary to-primary-glow",
       highlights: ["Hand-hammered copper teapots", "Traditional tagines", "Decorative brass items", "Ceramic tiles"]
     },

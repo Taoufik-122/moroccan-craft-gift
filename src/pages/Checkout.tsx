@@ -23,7 +23,7 @@ const Checkout = () => {
   const [sameAsShipping, setSameAsShipping] = useState(true);
 
   const shippingCost = totalPrice > 100 ? 0 : 15;
-  const taxRate = 0.1;
+  const taxRate = 0;
   const taxAmount = totalPrice * taxRate;
   const finalTotal = totalPrice + shippingCost + taxAmount;
 
@@ -241,7 +241,7 @@ const Checkout = () => {
                 </CardContent>
               </Card>
 
-              {/* Billing Information */}
+              {/* Billing Information 
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
@@ -333,9 +333,8 @@ const Checkout = () => {
                     </div>
                   </CardContent>
                 )}
-              </Card>
-
-              {/* Payment Information */}
+              </Card> 
+               Payment Information 
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
@@ -388,7 +387,7 @@ const Checkout = () => {
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </Card>*/}
             </div>
 
             {/* Order Summary */}

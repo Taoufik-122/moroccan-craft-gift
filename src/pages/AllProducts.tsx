@@ -12,6 +12,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
+
 
 type Product = Tables<'products'> & {
   categories: Tables<'categories'>;
@@ -26,16 +29,37 @@ const AllProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Tables<'categories'>[]>([]);
   const [loading, setLoading] = useState(true);
 
+
+
+const location = useLocation();
+type LocationState = { category?: string; city?: string };
+const state = location.state as LocationState | undefined;
+
+useEffect(() => {
+  if (state?.category) setSelectedCategory(state.category);
+  else setSelectedCategory("all");
+
+  if (state?.city) setSelectedCity(state.city);
+  else setSelectedCity("all");
+}, [location.key]);
+const query = new URLSearchParams(location.search);
+
+const cities = useMemo(() => {
+  return Array.from(new Set(categories.map(cat => cat.city).filter(Boolean)));
+}, [categories]);const category = query.get('category') || 'all';
+
   useEffect(() => {
     fetchProducts();
     fetchCategories();
   }, []);
+
+
 
   useEffect(() => {
     // Set up real-time subscription for products
@@ -95,13 +119,13 @@ const AllProducts = () => {
     }
   };
 
-  const cities = Array.from(new Set(categories.map(cat => cat.city)));
+
   const priceRanges = [
-    { label: "Under $50", min: 0, max: 50 },
-    { label: "$50 - $100", min: 50, max: 100 },
-    { label: "$100 - $200", min: 100, max: 200 },
-    { label: "$200 - $400", min: 200, max: 400 },
-    { label: "Over $400", min: 400, max: 1000 }
+    { label: "Under DH50", min: 0, max: 50 },
+    { label: "DH50 - DH100", min: 50, max: 100 },
+    { label: "DH100 - DH200", min: 100, max: 200 },
+    { label: "DH200 - DH400", min: 200, max: 400 },
+    { label: "Over DH400", min: 400, max: 1000 }
   ];
 
   const getProductName = (product: Product) => {
@@ -125,16 +149,15 @@ const AllProducts = () => {
         return category.name_en;
     }
   };
+const filteredProducts = products.filter(product => {
+  const productName = getProductName(product);
+  const matchesSearch = productName.toLowerCase().includes(searchTerm.toLowerCase());
+const matchesCity = selectedCity === "all" || product.categories.city === selectedCity;
+  const matchesCategory = selectedCategory === "all" || getCategoryName(product.categories) === selectedCategory;
+  const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
 
-  const filteredProducts = products.filter(product => {
-    const productName = getProductName(product);
-    const matchesSearch = productName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCity = selectedCity === "all" || product.categories.city === selectedCity;
-    const matchesCategory = selectedCategory === "all" || getCategoryName(product.categories) === selectedCategory;
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-    
-    return matchesSearch && matchesCity && matchesCategory && matchesPrice;
-  });
+  return matchesSearch && matchesCity && matchesCategory && matchesPrice;
+});
 
   const toggleFavorite = (productId: string) => {
     setFavorites(prev => 
@@ -224,7 +247,7 @@ const AllProducts = () => {
 
             {/* Price Range */}
             <div className="space-y-3">
-              <label className="text-sm font-medium">{t('priceRange')}: ${priceRange[0]} - ${priceRange[1]}</label>
+              <label className="text-sm font-medium">{t('priceRange')}: DH{priceRange[0]} - DH{priceRange[1]}</label>
               <Slider
                 value={priceRange}
                 onValueChange={setPriceRange}
@@ -291,7 +314,7 @@ const AllProducts = () => {
                 
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-primary">${product.price}</span>
+                    <span className="text-2xl font-bold text-primary">DH {product.price}</span>
                   </div>
                   
                   <Button

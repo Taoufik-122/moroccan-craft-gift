@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Truck, Shield, HeadphonesIcon } from 'lucide-react';
-import heroImage from '@/assets/hero-image.jpg';
+import heroImage from '@/assets/hero-image.png';
+import { Link } from 'react-router-dom';
+import myVideo from "@/assets/video_4d48ff1d_1756313657503.mp4";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   const features = [
@@ -28,8 +31,25 @@ const Hero = () => {
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
+        
       >
+       {/*   style={{ backgroundImage: `url(${heroImage})` }} */}
+      <motion.div 
+  initial={{ opacity: 0 }} 
+  animate={{ opacity: 1 }} 
+  transition={{ delay: 0.15 }}
+  className="h-72 sm:h-96 md:h-[500px] lg:h-[600px] rounded-3xl shadow-lg overflow-hidden"
+>
+  <video 
+    src={myVideo}  
+    autoPlay 
+    loop 
+    muted 
+    playsInline
+    className="w-full h-full object-cover"
+  />
+</motion.div>
+
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/60" />
       </div>
 
@@ -56,14 +76,23 @@ const Hero = () => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-slide-up">
-            <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-warm">
-              Shop All Products
-            </Button>
-            <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-              Explore by Cities
-            </Button>
-          </div>
+         <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-slide-up">
+  <Link to="/products" className="w-full sm:w-auto">
+    <Button size="lg" className="w-full bg-gradient-primary hover:opacity-90 shadow-warm">
+      Shop All Products
+    </Button>
+  </Link>
+
+  <Link to="/cities" className="w-full sm:w-auto">
+    <Button
+      variant="outline"
+      size="lg"
+      className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+    >
+      Explore by Cities
+    </Button>
+  </Link>
+</div>
 
           {/* Features */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-slide-up">

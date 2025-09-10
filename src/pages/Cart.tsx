@@ -12,7 +12,7 @@ const Cart = () => {
   const { t } = useLanguage();
 
   const shippingCost = totalPrice > 100 ? 0 : 15;
-  const taxRate = 0.1;
+  const taxRate = 0;
   const taxAmount = totalPrice * taxRate;
   const finalTotal = totalPrice + shippingCost + taxAmount;
 

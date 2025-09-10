@@ -23,6 +23,14 @@ import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminSettings from "./pages/admin/AdminSettings";
 import NotFound from "./pages/NotFound";
+import Support from "./pages/Support";
+import CareInstructions from "./pages/CareInstructions";
+import Return from "./pages/Return";
+import About from "./pages/About";
+
+
+
+
 
 const queryClient = new QueryClient();
 
@@ -35,6 +43,9 @@ const AppContent = () => {
       {!isAdminRoute && <Header />}
       <Routes>
         <Route path="/" element={<Index />} />
+ <Route path="/support" element={<Support />} />
+ <Route path="/CareInstructions" element={<CareInstructions />} />
+<Route path="/about" element={<About />} />
         <Route path="/products" element={<AllProducts />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cities" element={<CityCollections />} />
@@ -49,6 +60,7 @@ const AppContent = () => {
           <Route path="customers" element={<AdminCustomers />} />
           <Route path="analytics" element={<AdminAnalytics />} />
           <Route path="settings" element={<AdminSettings />} />
+
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
