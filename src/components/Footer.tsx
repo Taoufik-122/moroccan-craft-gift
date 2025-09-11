@@ -230,26 +230,60 @@ company: [
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-4">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} Souk Morocco. All rights reserved.
+              © {currentYear}  Moroccan Craft Gift. All rights reserved.
             </p>
-            <div className="flex space-x-4">
+        {/*      <div className="flex space-x-4">
               <a href="#" className="text-sm text-muted-foreground hover:text-primary">Privacy</a>
               <a href="#" className="text-sm text-muted-foreground hover:text-primary">Terms</a>
               <a href="#" className="text-sm text-muted-foreground hover:text-primary">Cookies</a>
-            </div>
+            </div> */}
           </div>
           
           {/* Social Links */}
-          <div className="flex items-center space-x-4">
-            <span className="text-sm text-muted-foreground">Follow us:</span>
-            <div className="flex space-x-2">
-              {[Facebook, Instagram, Twitter, Youtube].map((Icon, index) => (
-                <Button key={index} variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <Icon className="h-4 w-4" />
-                </Button>
-              ))}
-            </div>
-          </div>
+      <div className="flex space-x-2">
+  <a 
+    href="https://www.facebook.com/profile.php?id=61578327795179" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="p-2 rounded-full hover:bg-primary/10 transition-colors"
+  >
+    <Facebook className="h-5 w-5 text-foreground hover:text-primary" />
+  </a>
+  
+  <a 
+    href="https://www.instagram.com/moroccan.craft.gift/" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="p-2 rounded-full hover:bg-primary/10 transition-colors"
+  >
+    <Instagram className="h-5 w-5 text-foreground hover:text-primary" />
+  </a>
+  
+ <a 
+  href="https://wa.me/212687879451" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  className="p-2 rounded-full hover:bg-primary/10 transition-colors"
+>
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 32 32" 
+    fill="currentColor" 
+    className="h-5 w-5 text-foreground hover:text-primary"
+  >
+    <path d="M16 .5C7.44.5.5 7.44.5 16c0 2.8.73 5.53 2.11 7.95L.5 31.5l7.74-2.04A15.45 15.45 0 0 0 16 31.5c8.56 0 15.5-6.94 15.5-15.5S24.56.5 16 .5zm0 28c-2.46 0-4.87-.66-6.97-1.91l-.5-.3-4.6 1.21 1.23-4.48-.33-.55A12.96 12.96 0 1 1 16 28.5zm7.27-9.55c-.4-.2-2.36-1.16-2.73-1.3-.37-.13-.64-.2-.9.2s-1.04 1.3-1.28 1.57c-.24.27-.47.3-.87.1s-1.7-.63-3.24-2.01c-1.2-1.07-2-2.4-2.24-2.8-.23-.4-.02-.62.17-.82.18-.18.4-.47.6-.7.2-.23.27-.4.4-.67.13-.27.07-.5-.03-.7-.1-.2-.9-2.15-1.23-2.95-.32-.77-.65-.67-.9-.68h-.77c-.26 0-.68.1-1.03.5s-1.35 1.32-1.35 3.2 1.38 3.72 1.57 3.98c.2.27 2.72 4.15 6.6 5.82.92.4 1.64.64 2.2.82.92.3 1.77.26 2.44.16.74-.11 2.36-.96 2.7-1.89.34-.93.34-1.72.24-1.89-.1-.17-.36-.27-.76-.47z"/>
+  </svg>
+</a>
+{/*  <a 
+    href="https://www.youtube.com/YourChannel" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="p-2 rounded-full hover:bg-primary/10 transition-colors"
+  >
+    <Youtube className="h-5 w-5 text-foreground hover:text-primary" />
+  </a>*/}
+</div>
+
         </div>
       </div>
     </footer>

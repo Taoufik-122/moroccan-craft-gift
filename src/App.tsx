@@ -25,6 +25,7 @@ import AdminSettings from "./pages/admin/AdminSettings";
 import NotFound from "./pages/NotFound";
 import Support from "./pages/Support";
 import CareInstructions from "./pages/CareInstructions";
+import Contact from "./pages/Contact";
 import Return from "./pages/Return";
 import About from "./pages/About";
 
@@ -47,6 +48,8 @@ const AppContent = () => {
  <Route path="/CareInstructions" element={<CareInstructions />} />
 <Route path="/about" element={<About />} />
         <Route path="/products" element={<AllProducts />} />
+
+        <Route path="/Contact" element={<Contact />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cities" element={<CityCollections />} />
         <Route path="/cart" element={<Cart />} />
