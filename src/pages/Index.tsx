@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import CityCollections from '@/components/CityCollections';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import Footer from '@/components/Footer';
+import { ShoppingCart } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -14,6 +15,13 @@ const Index = () => {
         <FeaturedProducts />
           <CityCollections />
       </main>
+
+          <a
+        href="/cart"
+        className="fixed bottom-24 right-6 bg-[#D4AF37] hover:bg-yellow-600 text-black rounded-full shadow-lg p-4 transition-colors z-50"
+      >
+        <ShoppingCart className="w-7 h-7" />
+      </a>
          {/* زر واتساب ثابت */}
       <a
         href="https://wa.me/212687879451"
