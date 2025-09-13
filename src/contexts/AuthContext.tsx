@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, displayName?: string) => {
-    const redirectUrl = `https://moroccancraftgift.com/`;
+    const redirectUrl = `${window.location.origin}/`;
     
     const { error } = await supabase.auth.signUp({
       email,
@@ -122,23 +122,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
- const signInWithGoogle = async () => {
-  // حدد الرابط المناسب حسب البيئة
-  const redirectTo =
-    window.location.hostname === 'localhost'
-      ? 'http://localhost:3000/'      // أثناء التطوير
-      : 'https://moroccancraftgift.com/'; // أثناء الإنتاج
-
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      redirectTo
-    }
-  });
-
-  return { error };
-};
-
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/`
+      }
+    });
+    return { error };
+  };
 
   const value = {
     user,
