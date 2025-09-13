@@ -5,8 +5,8 @@ import { ShoppingCart, Menu, X, Globe, Search, LogIn, LogOut, Settings } from 'l
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { Link } from 'react-router-dom';
 import type { Language } from "../contexts/LanguageContext";
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   console.log('Header component rendering');
@@ -18,6 +18,7 @@ const Header = () => {
   console.log('About to call useCart');
   const { totalItems } = useCart();
   console.log('useCart successful, totalItems:', totalItems);
+const navigate = useNavigate();
 
   // Scroll behavior for hiding/showing navbar
   useEffect(() => {
@@ -92,14 +93,14 @@ const languages: { code: Language; name: string; flag: string }[] = [
           {/* Right side actions */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="hidden sm:flex  hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30"
-              onClick={() => window.location.href = '/products'}
-            >
-              <Search className="text-[#D4AF37]   h-4 w-4" />
-            </Button>
+  <Button 
+  variant="ghost" 
+  size="sm" 
+  className="hidden sm:flex hover:text-primary-glow hover:bg-card/10 backdrop-blur-sm border border-card/20 hover:border-primary-glow/30"
+  onClick={() => navigate("/products")}
+>
+  <Search className="text-[#D4AF37] h-4 w-4" />
+</Button>
 
             {/* Language Selector */}
            <div className=" relative group">
