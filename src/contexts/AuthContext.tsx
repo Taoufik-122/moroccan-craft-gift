@@ -122,15 +122,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-redirectTo: 'https://moroccancraftgift.com/'
-      }
-    });
-    return { error };
-  };
+ const signInWithGoogle = async () => {
+  // حدد الرابط المناسب حسب البيئة
+  const redirectTo =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:3000/'      // أثناء التطوير
+      : 'https://moroccancraftgift.com/'; // أثناء الإنتاج
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo
+    }
+  });
+
+  return { error };
+};
+
 
   const value = {
     user,
