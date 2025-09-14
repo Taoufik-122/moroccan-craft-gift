@@ -22,7 +22,7 @@ const Index = () => {
       >
         <ShoppingCart className="w-7 h-7" />
       </a>
-         {/* زر واتساب ثابت */}
+         {/* fdfsزر واتساب ثابت */}
       <a
         href="https://wa.me/212687879451"
         target="_blank"
