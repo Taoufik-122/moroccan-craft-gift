@@ -28,42 +28,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .select('role')
         .eq('user_id', userId)
         .single();
-      
-      if (!error && data) {
-        setUserRole(data.role);
-      }
-    } catch (error) {
-      console.error('Error fetching user role:', error);
+      if (!error && data) setUserRole(data.role);
+    } catch (err) {
+      console.error('Error fetching user role:', err);
     }
   };
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          setTimeout(() => {
-            fetchUserRole(session.user.id);
-          }, 0);
-        } else {
-          setUserRole(null);
-        }
-        
+
+        if (session?.user) fetchUserRole(session.user.id);
+        else setUserRole(null);
+
         setLoading(false);
       }
     );
 
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        fetchUserRole(session.user.id);
-      }
+      if (session?.user) fetchUserRole(session.user.id);
       setLoading(false);
     });
 
@@ -71,45 +58,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, displayName?: string) => {
-    const redirectUrl = `https://moroccancraftgift.com/`;
-    
+    const redirectUrl = `${window.location.origin}/`;
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: redirectUrl,
-        data: {
-          display_name: displayName || email.split('@')[0]
-        }
-      }
+        data: { display_name: displayName || email.split('@')[0] },
+      },
     });
     return { error };
   };
 
   const signIn = async (email: string, password: string) => {
     try {
-      // Clean up existing state
-      try {
-        await supabase.auth.signOut({ scope: 'global' });
-      } catch (err) {
-        // Continue even if this fails
-      }
-      
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
+      await supabase.auth.signOut({ scope: 'global' }).catch(() => {});
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      
-      if (data.user) {
-        // Force page reload for clean state
-        window.location.href = 'https://moroccancraftgift.com/';
-      }
-      
+      if (data.user) window.location.href = '/';
       return { error: null };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      return { error: err };
     }
   };
 
@@ -117,34 +86,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await supabase.auth.signOut({ scope: 'global' });
       window.location.href = '/auth';
-    } catch (error) {
-      console.error('Error signing out:', error);
+    } catch (err) {
+      console.error('Error signing out:', err);
     }
   };
 
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: `https://moroccancraftgift.com/`
-      }
+      options: { redirectTo: `${window.location.origin}/` },
     });
     return { error };
   };
 
-  const value = {
-    user,
-    session,
-    userRole,
-    loading,
-    signUp,
-    signIn,
-    signOut,
-    signInWithGoogle,
-  };
-
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, session, userRole, loading, signUp, signIn, signOut, signInWithGoogle }}>
       {children}
     </AuthContext.Provider>
   );
@@ -152,8 +108,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };
