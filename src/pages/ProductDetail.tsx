@@ -234,7 +234,7 @@ const ProductDetail = () => {
 
             <div className="space-y-4">
               <h3 className="text-xl font-semibold">Description</h3>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {getProductDescription(product) || "This beautiful handcrafted item represents the finest artisanal traditions of Morocco. Each piece is carefully made by skilled craftspeople using time-honored techniques passed down through generations."}
               </p>
             </div>
