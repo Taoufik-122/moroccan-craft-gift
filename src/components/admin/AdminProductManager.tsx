@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Edit, Trash2, Package, Archive } from 'lucide-react';
 import ProductVariationManager from './ProductVariationManager';
+import MultiImageUploader from './MultiImageUploader';
 
 interface Product {
   id: string;
@@ -480,11 +481,19 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                 </Button>
               </DialogFooter>
               
+{editingProduct && (
+  <div className="p-4 border rounded-lg">
+    <MultiImageUploader productId={editingProduct.id} />
+  </div>
+)}
+
+
               {/* Product Variations Section */}
               {editingProduct && (
                 <div className="pt-6 border-t">
                   <ProductVariationManager productId={editingProduct.id} />
                 </div>
+                
               )}
             </form>
           </DialogContent>
