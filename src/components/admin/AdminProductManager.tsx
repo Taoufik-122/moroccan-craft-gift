@@ -14,6 +14,7 @@ import { Plus, Edit, Trash2, Package, Archive } from 'lucide-react';
 import ProductVariationManager from './ProductVariationManager';
 import MultiImageUploader from './MultiImageUploader';
 
+
 interface Product {
   id: string;
   name_en: string;

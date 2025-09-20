@@ -11,7 +11,7 @@ interface MultiImageUploaderProps {
 const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ productId }) => {
   const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
+  const [uploadedUrls, setUploadedUrls] = useState<{ id: string; image_url: string }[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
   // جلب الصور الموجودة مسبقًا من قاعدة البيانات
@@ -26,7 +26,7 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ productId }) =>
         .select('*')
         .eq('product_id', productId);
       if (error) throw error;
-      setUploadedUrls(data?.map(img => img.image_url) || []);
+      setUploadedUrls(data || []);
     } catch (error) {
       console.error(error);
       toast({ title: 'Error', description: 'Failed to fetch images', variant: 'destructive' });
@@ -40,56 +40,70 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ productId }) =>
 
   const handleUpload = async () => {
     if (files.length === 0) return;
-
     setIsUploading(true);
+
     try {
-      const urls: string[] = [];
+      const urls: { id?: string; image_url: string }[] = [];
 
       for (const file of files) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${file.name}`;
-        const filePath = `product-images/${productId}/${fileName}`;
+        const filePath = `${productId}/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('product-images')
+          .from('product-images') // تأكد أن الاسم مطابق للبكت
           .upload(filePath, file);
 
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          throw uploadError;
+        }
 
-        const { data: publicUrlData } = supabase.storage
+        const { data: publicUrlData, error: urlError } = supabase.storage
           .from('product-images')
           .getPublicUrl(filePath);
 
-        if (publicUrlData?.publicUrl) urls.push(publicUrlData.publicUrl);
+        if (urlError) throw urlError;
+        if (publicUrlData?.publicUrl) {
+          urls.push({ image_url: publicUrlData.publicUrl });
+        }
       }
 
       // حفظ الروابط في قاعدة البيانات
-      await supabase.from('product_images').insert(
-        urls.map(url => ({ product_id: productId, image_url: url }))
-      );
+      const { error: insertError, data: insertedData } = await supabase
+        .from('product_images')
+        .insert(
+          urls.map(url => ({ product_id: productId, image_url: url.image_url }))
+        )
+        .select();
 
-      setUploadedUrls(prev => [...prev, ...urls]);
+      if (insertError) throw insertError;
+
+      setUploadedUrls(prev => [...prev, ...(insertedData || [])]);
       setFiles([]);
       toast({ title: 'Success', description: 'Images uploaded successfully' });
     } catch (error) {
-      console.error(error);
+      console.error('Upload failed:', error);
       toast({ title: 'Error', description: 'Failed to upload images', variant: 'destructive' });
     } finally {
       setIsUploading(false);
     }
   };
 
-  const handleDelete = async (url: string) => {
+  const handleDelete = async (id: string, url: string) => {
     try {
       // حذف من قاعدة البيانات
       const { error } = await supabase
         .from('product_images')
         .delete()
-        .eq('product_id', productId)
-        .eq('image_url', url);
+        .eq('id', id);
       if (error) throw error;
 
-      setUploadedUrls(prev => prev.filter(u => u !== url));
+      // حذف من التخزين
+      const filePath = url.split('/').slice(-3).join('/'); // استخراج مسار الصورة
+      await supabase.storage.from('product-images').remove([filePath]);
+
+      setUploadedUrls(prev => prev.filter(u => u.id !== id));
       toast({ title: 'Success', description: 'Image deleted successfully' });
     } catch (error) {
       console.error(error);
@@ -104,15 +118,15 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ productId }) =>
         {isUploading ? 'Uploading...' : 'Upload Images'}
       </Button>
 
-      <div className="flex gap-2 flex-wrap">
-        {uploadedUrls.map(url => (
-          <div key={url} className="relative">
-            <img src={url} alt="Product" className="w-24 h-24 object-cover rounded-lg" />
+      <div className="flex gap-2 flex-wrap mt-4">
+        {uploadedUrls.map((img) => (
+          <div key={img.id} className="relative">
+            <img src={img.image_url} alt="Product" className="w-24 h-24 object-cover rounded-lg" />
             <Button
               size="sm"
               variant="destructive"
               className="absolute top-0 right-0"
-              onClick={() => handleDelete(url)}
+              onClick={() => handleDelete(img.id!, img.image_url)}
             >
               Delete
             </Button>
