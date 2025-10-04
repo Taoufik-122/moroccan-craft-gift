@@ -9,15 +9,12 @@ import type { Language } from "../contexts/LanguageContext";
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  console.log('Header component rendering');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { language, setLanguage, t } = useLanguage();
   const { user, userRole, signOut } = useAuth();
-  console.log('About to call useCart');
   const { totalItems } = useCart();
-  console.log('useCart successful, totalItems:', totalItems);
 const navigate = useNavigate();
 
   // Scroll behavior for hiding/showing navbar
