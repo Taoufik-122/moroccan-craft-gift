@@ -236,7 +236,7 @@ const ProductDetail = () => {
               <h1 className="text-4xl font-bold mb-2">{getProductName(product)}</h1>
               <p className="text-xl text-muted-foreground">{product.categories.city}</p>
             </div>
-
+ {/* 
             <div className="flex items-center gap-2">
               {[...Array(5)].map((_, i) => (
                 <Star 
@@ -246,7 +246,7 @@ const ProductDetail = () => {
               ))}
               <span className="text-lg text-muted-foreground ml-2">(4.5) • 126 reviews</span>
             </div>
-
+ */}
             <div className="text-4xl font-bold text-primary">
               ${(product.price + Object.values(selectedVariations).reduce((total: number, variation: any) => total + variation.price_adjustment, 0)).toFixed(2)}
             </div>
