@@ -66,7 +66,7 @@ const languages: { code: Language; name: string; flag: string }[] = [
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center space-x-3">
               <img 
-                src="/lovable-uploads/ad2fa27a-2f5f-4449-80b9-caafd8c5fea2.png" 
+                src="logo.png" 
                 alt="Moroccan Craft Gift Logo" 
                 className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
               />
