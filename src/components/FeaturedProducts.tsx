@@ -140,7 +140,7 @@ const FeaturedProducts = () => {
                   <span className="text-sm text-muted-foreground">{product.categories.city}</span>
                 </div>
                 
-                <div className="flex items-center gap-1 mb-2">
+                {/*   <div className="flex items-center gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star 
                       key={i} 
@@ -151,7 +151,7 @@ const FeaturedProducts = () => {
                     (4.5)
                   </span>
                 </div>
-                
+                 */}
                 <p className="text-sm text-muted-foreground mb-4">{getCategoryName(product.categories)}</p>
                 
                 <div className="flex justify-between items-center">
