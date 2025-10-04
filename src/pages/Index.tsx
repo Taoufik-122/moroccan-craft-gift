@@ -4,7 +4,6 @@ import CityCollections from '@/components/CityCollections';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import Footer from '@/components/Footer';
 import { ShoppingCart } from 'lucide-react';
-
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
