@@ -32,7 +32,6 @@ import About from "./pages/About";
 
 
 
-
 const queryClient = new QueryClient();
 
 const AppContent = () => {
