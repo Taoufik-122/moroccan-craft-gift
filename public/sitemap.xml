@@ -2,8 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://moroccancraftgift.com/</loc>
-    <lastmod>2025-10-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/support</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/CareInstructions</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/about</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/products</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/Contact</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/cities</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/cart</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/checkout</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/order-success</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/auth</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/product/1</loc>
+  </url>
+  <url>
+    <loc>https://moroccancraftgift.com/product/2</loc>
   </url>
 </urlset>
