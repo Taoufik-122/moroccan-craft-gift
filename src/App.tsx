@@ -64,6 +64,7 @@ const AppContent = () => {
           <Route path="settings" element={<AdminSettings />} />
 
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
