@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/images/:path*", "destination": "/images/:path*" },
+    { "source": "/uploads/:path*", "destination": "/uploads/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
