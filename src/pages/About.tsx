@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Menu, X, Mail, ArrowRight, Newspaper, Leaf, Users, Briefcase, BookOpen } from "lucide-react";
 import myVideo from "@/assets/video_4d48ff1d_1756313657503.mp4";
 import heroImage from '@/assets/hero-image.png';
+import { Helmet } from "react-helmet-async";
 
 // Color palette
 const GOLD = "#D4AF37"; // Elegant Gold
@@ -39,6 +40,36 @@ export default function AboutMORCG() {
   return (
     <div className="min-h-screen bg-[#F8F6F2] text-[#1f2937]">
       {/* Header */}
+
+      <Helmet>
+        <title>Moroccan Craft Gift | Authentic Moroccan Handicrafts</title>
+        <meta
+          name="description"
+          content="Discover authentic Moroccan handicrafts: copperware, leather poufs, zellige tiles, and woodwork. Handmade by skilled artisans since 1995."
+        />
+        <meta name="keywords" content="Moroccan crafts, handmade, copper, leather, zellige, artisanal gifts" />
+        <link rel="canonical" href="https://moroccancraftgift.com/" />
+        <meta property="og:title" content="Moroccan Craft Gift" />
+        <meta property="og:description" content="Handcrafted Moroccan products by skilled artisans. Fair trade and sustainable." />
+        <meta property="og:image" content="https://moroccancraftgift.com/og-image.png" />
+        <meta property="og:url" content="https://moroccancraftgift.com/" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+{`
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "Moroccan Craft Gift",
+  "url": "https://moroccancraftgift.com/",
+  "logo": "https://moroccancraftgift.com/logo.png",
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61578327795179",
+    "https://www.instagram.com/moroccan.craft.gift/"
+  ]
+}
+`}
+</script>
+      </Helmet>
       <header
         className={`fixed top-0 z-50 w-full transition-all duration-300 ${
           scrolled ? "bg-white/90 backdrop-blur border-b border-[#D4AF37]/30 shadow-sm" : "bg-white"
@@ -50,13 +81,15 @@ export default function AboutMORCG() {
               <div className="h-9 w-9 rounded-2xl" style={{ background: `linear-gradient(135deg, ${GOLD}, ${COPPER})` }} />
                  <a href="/" className="flex items-center space-x-3">
                            <img 
-                             src="/lovable-uploads/ad2fa27a-2f5f-4449-80b9-caafd8c5fea2.png" 
+                             src="/logo.png" 
                              alt="Moroccan Craft Gift Logo" 
                              className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
                            />
-                           <h1 className="text-xl text-black font-bold  hidden sm:block drop-shadow-sm">
-                             Moroccan Craft Gift
-                           </h1>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+  About Moroccan Craft Gift
+</h2>
+
+
                          </a>
             </div>
 
@@ -172,17 +205,17 @@ export default function AboutMORCG() {
             {
               title: "Copper Masters of Fez",
               text: "Hammered trays, lamps, and teapots shaped with centuries-old techniques.",
-              img: "src/assets/Moroccan craft gift Copper Masters of Fez.png",
+              img: "/Moroccan craft gift Copper Masters of Fez.png",
             },
             {
               title: "Leather of Marrakech",
               text: "Hand-stitched poufs and bags tanned with vegetal dyes.",
-              img: "src/assets/Moroccan craft gift Leather of Marrakech.png",
+              img: "/Moroccan craft gift Leather of Marrakech.png",
             },
             {
               title: "Zellige & Wood Inlay",
               text: "Geometric tiles and thuya wood marquetry from artisan guilds.",
-              img: "src/assets/Moroccan craft gift Zellige & Wood Inlay.jpg",
+              img: "/Moroccan craft gift Zellige & Wood Inlay.jpg",
             },
           ]}
         />
@@ -258,17 +291,17 @@ export default function AboutMORCG() {
             {
               title: "Choosing the Perfect Copper Lamp",
               text: "A quick guide to shapes, finishes, and maintenance.",
-              img: "src/assets/Morocan craft gift Choosing the Perfect Copper Lamp.png",
+              img: "/Morocan craft gift Choosing the Perfect Copper Lamp.png",
             },
             {
               title: "Behind the Leather Pouf",
               text: "From tanning to stitching: the full journey.",
-              img: "src/assets/Moroccan craft gift Behind the Leather Pouf_result.jpg",
+              img: "/Moroccan craft gift Behind the Leather Pouf_result.jpg",
             },
             {
               title: "Zellige Patterns 101",
               text: "How artisans craft timeless geometry.",
-              img: "src/assets/Moroccan craft gift Zellige Patterns 101.jpg",
+              img: "/Moroccan craft gift Zellige Patterns 101.jpg",
             },
           ]}
         />
@@ -316,7 +349,7 @@ function Cards({ items }) {
       {items.map((card, i) => (
         <article key={i} className="group overflow-hidden rounded-3xl border bg-white shadow-sm">
           <div className="h-40 sm:h-44 md:h-48 w-full overflow-hidden">
-            <img src={card.img} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <img src={card.img} alt={card.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
           <div className="p-5">
             <h3 className="font-semibold text-lg">{card.title}</h3>

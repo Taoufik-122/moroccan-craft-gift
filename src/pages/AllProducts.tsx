@@ -14,6 +14,7 @@ import type { Tables } from "@/integrations/supabase/types";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
+import { Helmet } from "react-helmet-async";
 
 
 type Product = Tables<'products'> & {
@@ -194,11 +195,83 @@ const matchesCity = selectedCity === "all" || product.categories.city === select
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
+    <Helmet>
+<title>{`All Moroccan Handmade Products | Moroccan Craft Gift`}</title>
+<meta name="language" content={language === 'ar' ? 'ar' : language === 'fr' ? 'fr' : 'en'} />
+
+  <meta
+    name="description"
+    content="Shop authentic Moroccan handcrafted gifts and decor. Discover leather poufs, copperware, pottery, zellige, and artisanal home accessories. 100% handmade in Morocco."
+  />
+  <meta
+    name="keywords"
+    content="Moroccan crafts, Moroccan handmade, Moroccan poufs, copperware, zellige, tajine, artisanal gifts, Moroccan decor, Marrakech crafts, Fez artisans"
+  />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Moroccan Craft Gift" />
+  <link rel="canonical" href="https://moroccancraftgift.com/products" />
+
+  {/* Open Graph (Facebook, LinkedIn) */}
+  <meta property="og:type" content="website" />
+<meta property="og:locale" content={language === 'ar' ? 'ar_MA' : language === 'fr' ? 'fr_FR' : 'en_US'} />
+  <meta property="og:title" content="Moroccan Handcrafted Gifts & Decor | Moroccan Craft Gift" />
+  <meta
+    property="og:description"
+    content="Explore traditional Moroccan handmade crafts — poufs, copper, pottery, and zellige. Handmade by local artisans."
+  />
+  <meta property="og:image" content="https://moroccancraftgift.com/og-image.png" />
+  <meta property="og:url" content="https://moroccancraftgift.com/products" />
+  <meta property="og:site_name" content="Moroccan Craft Gift" />
+
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Moroccan Handcrafted Gifts & Decor | Moroccan Craft Gift" />
+  <meta
+    name="twitter:description"
+    content="Authentic Moroccan artisanal products — leather poufs, copperware, pottery, and handmade gifts."
+  />
+  <meta name="twitter:image" content="https://moroccancraftgift.com/og-image.png" />
+
+  {/* JSON-LD Structured Data */}
+  <script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://moroccancraftgift.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Products",
+        "item": "https://moroccancraftgift.com/products"
+      }
+    ]
+  })}
+</script>
+</Helmet>
+
+<section className="text-center mb-6">
+  <h1>
+  {language === 'ar' ? 'منتجات مغربية تقليدية أصلية' :
+   language === 'fr' ? 'Produits artisanaux marocains authentiques' :
+   'Authentic Moroccan Handcrafted Products'}
+</h1>
+
+  <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+    Discover unique handmade crafts from Morocco — leather poufs, copperware, pottery, and traditional decor crafted by local artisans.
+  </p>
+</section>
+
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
-            {t('allProducts')}
+            {t('AllProducts')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t('discoverOurCompleteCollection')}
@@ -271,8 +344,21 @@ const matchesCity = selectedCity === "all" || product.categories.city === select
               <div className="relative">
                 <img 
                   src={product.image_url || 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=500'}
-                  alt={getProductName(product)}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                   loading="lazy"
+alt={
+  language === 'ar'
+    ? `${getProductName(product)} - مصنوع يدويًا في المغرب`
+    : language === 'fr'
+    ? `${getProductName(product)} - Fait main au Maroc`
+    : `${getProductName(product)} - Handmade in Morocco`
+}
+
+  title={`${getProductName(product)} | Moroccan Craft Gift`}
+  width="400"
+  height="400"
+  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+
+                
                 />
                 <button
                   onClick={() => toggleFavorite(product.id)}
@@ -292,23 +378,13 @@ const matchesCity = selectedCity === "all" || product.categories.city === select
               
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+<h2 className="font-semibold text-lg group-hover:text-primary transition-colors">
                     {getProductName(product)}
-                  </h3>
+                  </h2>
                   <span className="text-sm text-muted-foreground">{product.categories.city}</span>
                 </div>
                 
-                <div className="flex items-center gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                    />
-                  ))}
-                  <span className="text-sm text-muted-foreground ml-1">
-                    (4.5)
-                  </span>
-                </div>
+               
                 
                 <p className="text-sm text-muted-foreground mb-4">{getCategoryName(product.categories)}</p>
                 
@@ -379,6 +455,8 @@ const matchesCity = selectedCity === "all" || product.categories.city === select
         </svg>
       </a>
     </div>
+
+
   );
 };
 
