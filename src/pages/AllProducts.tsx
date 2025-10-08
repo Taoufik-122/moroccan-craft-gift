@@ -198,15 +198,13 @@ const matchesCity = selectedCity === "all" || product.categories.city === select
     <Helmet>
 <title>{`All Moroccan Handmade Products | Moroccan Craft Gift`}</title>
 <meta name="language" content={language === 'ar' ? 'ar' : language === 'fr' ? 'fr' : 'en'} />
-         <link rel="icon" href="https://moroccancraftgift.com/download.png" />
+      <link rel="icon" href="https://moroccancraftgift.com/download.png" />
 
-    <link rel="icon" href="https://moroccancraftgift.com/image2vector.svg" />
+<link rel="icon" href="https://moroccancraftgift.com/favicon-64x64.png" sizes="64x64" type="image/png" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://moroccancraftgift.com/apple-touch-icon.png" />
 
-    <link rel="icon" href="https://moroccancraftgift.com/image2vector.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="https://moroccancraftgift.com/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="https://moroccancraftgift.com/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="https://moroccancraftgift.com/apple-touch-icon.png" />
-      
+  <link rel="canonical" href="https://moroccancraftgift.com/" />
+
   <meta
     name="description"
     content="Shop authentic Moroccan handcrafted gifts and decor. Discover leather poufs, copperware, pottery, zellige, and artisanal home accessories. 100% handmade in Morocco."
