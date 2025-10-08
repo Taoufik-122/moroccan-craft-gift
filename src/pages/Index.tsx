@@ -14,15 +14,15 @@ const Index = () => {
         {/* SEO & Open Graph */}
         <Helmet>
           <title>Moroccan Craft Gift - Authentic Moroccan Handicrafts</title>
-          
-  <link rel="icon" href="https://moroccancraftgift.com/favicon.svg" type="image/svg+xml" />
-  <link rel="icon" href="https://moroccancraftgift.com/favicon-64x64.png" sizes="64x64" type="image/png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="https://moroccancraftgift.com/apple-touch-icon.png" />
+           <link rel="icon" href="/public/download.png" />
 
-  {/* Canonical & OG */}
-  <link rel="canonical" href="https://moroccancraftgift.com/" />
-  <meta property="og:image" content="https://moroccancraftgift.com/logo.png" />
-  <meta property="og:url" content="https://moroccancraftgift.com/" />
+    <link rel="icon" href="/download.png" />
+    <link rel="icon" href="/image2vector.svg" />
+
+    <link rel="icon" href="/public/image2vector.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           <meta
             name="description"
             content="Discover authentic Moroccan handicrafts and artisan gifts. Handmade poufs, lamps, copperware, and decorative items."

@@ -5,6 +5,7 @@ import heroImage from '@/assets/hero-image.png';
 import { Link } from 'react-router-dom';
 import myVideo from "@/assets/video_4d48ff1d_1756313657503.mp4";
 import { motion } from "framer-motion";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const Hero = () => {
   const features = [
@@ -28,6 +29,50 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+       <Helmet>
+                <title>Moroccan Craft Gift - Authentic Moroccan Handicrafts</title>
+                 <link rel="icon" href="/public/download.png" />
+      
+          <link rel="icon" href="/download.png" />
+          <link rel="icon" href="/image2vector.svg" />
+      
+          <link rel="icon" href="/public/image2vector.svg" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+                <meta
+                  name="description"
+                  content="Discover authentic Moroccan handicrafts and artisan gifts. Handmade poufs, lamps, copperware, and decorative items."
+                />
+                <meta
+                  name="keywords"
+                  content="Moroccan handicrafts, poufs, lamps, copperware, artisan gifts"
+                />
+                <meta name="author" content="Moroccan Craft Gift" />
+                <meta property="og:title" content="Moroccan Craft Gift - Authentic Moroccan Handicrafts" />
+                <meta property="og:description" content="Discover authentic Moroccan handicrafts and artisan gifts." />
+                <meta property="og:image" content="https://moroccancraftgift.com/logo.png" />
+                <meta property="og:url" content="https://moroccancraftgift.com/" />
+                <link rel="canonical" href="https://moroccancraftgift.com/" />
+      
+                {/* Structured Data JSON-LD */}
+                <script type="application/ld+json">
+                  {`
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "Store",
+                    "name": "Moroccan Craft Gift",
+                    "image": "https://moroccancraftgift.com/logo.png",
+                    "description": "Authentic Moroccan handicrafts and artisan gifts",
+                    "url": "https://moroccancraftgift.com",
+                    "sameAs": [
+                      "https://www.facebook.com/profile.php?id=61578327795179",
+                      "https://www.instagram.com/moroccan.craft.gift/"
+                    ]
+                  }
+                  `}
+                </script>
+              </Helmet>
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
