@@ -9,6 +9,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 type Product = Tables<'products'> & {
   categories: Tables<'categories'>;
@@ -91,6 +92,48 @@ const FeaturedProducts = () => {
 
   return (
     <section className="py-20 bg-gradient-subtle">
+       <Helmet>
+                <title>Moroccan Craft Gift - Authentic Moroccan Handicrafts</title>
+                 <link rel="icon" href="https://moroccancraftgift.com/download.png" />
+      
+      <link rel="icon" href="https://moroccancraftgift.com/favicon-64x64.png" sizes="64x64" type="image/png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="https://moroccancraftgift.com/apple-touch-icon.png" />
+      
+        <link rel="canonical" href="https://moroccancraftgift.com/" />
+      
+                <meta
+                  name="description"
+                  content="Discover authentic Moroccan handicrafts and artisan gifts. Handmade poufs, lamps, copperware, and decorative items."
+                />
+                <meta
+                  name="keywords"
+                  content="Moroccan handicrafts, poufs, lamps, copperware, artisan gifts"
+                />
+                <meta name="author" content="Moroccan Craft Gift" />
+                <meta property="og:title" content="Moroccan Craft Gift - Authentic Moroccan Handicrafts" />
+                <meta property="og:description" content="Discover authentic Moroccan handicrafts and artisan gifts." />
+                <meta property="og:image" content="https://moroccancraftgift.com/logo.png" />
+                <meta property="og:url" content="https://moroccancraftgift.com/" />
+                <link rel="canonical" href="https://moroccancraftgift.com/" />
+      
+                {/* Structured Data JSON-LD */}
+                <script type="application/ld+json">
+                  {`
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "Store",
+                    "name": "Moroccan Craft Gift",
+                    "image": "https://moroccancraftgift.com/logo.png",
+                    "description": "Authentic Moroccan handicrafts and artisan gifts",
+                    "url": "https://moroccancraftgift.com",
+                    "sameAs": [
+                      "https://www.facebook.com/profile.php?id=61578327795179",
+                      "https://www.instagram.com/moroccan.craft.gift/"
+                    ]
+                  }
+                  `}
+                </script>
+              </Helmet>
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
