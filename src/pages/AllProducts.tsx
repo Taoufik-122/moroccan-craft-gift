@@ -14,7 +14,7 @@ import type { Tables } from "@/integrations/supabase/types";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
-import { Helmet } from "react-helmet-async";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
 type Product = Tables<'products'> & {
@@ -194,6 +194,8 @@ const matchesCity = selectedCity === "all" || product.categories.city === select
   }
 
   return (
+        <HelmetProvider>
+
     <div className="min-h-screen bg-gradient-subtle">
     <Helmet>
 <title>{`All Moroccan Handmade Products | Moroccan Craft Gift`}</title>
@@ -461,6 +463,7 @@ alt={
         </svg>
       </a>
     </div>
+    </HelmetProvider>
 
 
   );

@@ -60,14 +60,7 @@ const Index = () => {
 
         {/* Main content */}
         <main>
-          <Hero>
-            <h1 className="text-4xl font-bold mb-4">
-              Authentic Moroccan Handicrafts & Artisan Gifts
-            </h1>
-            <p className="text-lg">
-              Discover handmade poufs, lamps, copperware, and decorative items.
-            </p>
-          </Hero>
+     
 
           {/* Featured Products Section */}
           <section>

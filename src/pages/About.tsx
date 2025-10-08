@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Menu, X, Mail, ArrowRight, Newspaper, Leaf, Users, Briefcase, BookOpen } from "lucide-react";
 import myVideo from "@/assets/video_4d48ff1d_1756313657503.mp4";
 import heroImage from '@/assets/hero-image.png';
-import { Helmet } from "react-helmet-async";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // Color palette
 const GOLD = "#D4AF37"; // Elegant Gold
@@ -38,6 +38,7 @@ export default function AboutMORCG() {
   };
 
   return (
+    
     <div className="min-h-screen bg-[#F8F6F2] text-[#1f2937]">
       {/* Header */}
 
