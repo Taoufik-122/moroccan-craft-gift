@@ -1,19 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+
   "redirects": [
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.moroccancraftgift.com" }],
       "destination": "https://moroccancraftgift.com/$1",
       "statusCode": 301
-    },
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "protocol", "value": "http" }],
-      "destination": "https://moroccancraftgift.com/$1",
-      "statusCode": 301
     }
   ],
+
   "headers": [
     {
       "source": "/(.*)",
@@ -22,6 +18,7 @@
       ]
     }
   ],
+
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/robots.txt" },
