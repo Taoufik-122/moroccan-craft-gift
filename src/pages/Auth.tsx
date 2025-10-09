@@ -69,7 +69,10 @@ const Auth = () => {
     <link rel="icon" href="https://moroccancraftgift.com/favicon-64x64.png" sizes="64x64" type="image/png" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://moroccancraftgift.com/apple-touch-icon.png" />
     
-      <link rel="canonical" href="https://moroccancraftgift.com/" />
+  <title>Sign In | Moroccan Craft Gift</title>
+  <link rel="canonical" href="https://moroccancraftgift.com/auth" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Secure login to your Moroccan Craft Gift account" />
     
               <meta
                 name="description"
@@ -83,7 +86,7 @@ const Auth = () => {
               <meta property="og:title" content="Moroccan Craft Gift - Authentic Moroccan Handicrafts" />
               <meta property="og:description" content="Discover authentic Moroccan handicrafts and artisan gifts." />
               <meta property="og:image" content="https://moroccancraftgift.com/logo.png" />
-              <meta property="og:url" content="https://moroccancraftgift.com/" />
+
               <link rel="canonical" href="https://moroccancraftgift.com/" />
     
               {/* Structured Data JSON-LD */}

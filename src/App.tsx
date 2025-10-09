@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -70,27 +71,41 @@ const AppContent = () => {
   );
 };
 
+
+
 const App = () => {
+  useEffect(() => {
+    // ✅ Force HTTPS redirect (only in production)
+    if (
+      window.location.protocol !== "https:" &&
+      window.location.hostname !== "localhost"
+    ) {
+      window.location.href =
+        "https://" +
+        window.location.hostname +
+        window.location.pathname +
+        window.location.search;
+    }
+  }, []);
+
   return (
-        <HelmetProvider>
-
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <LanguageProvider>
-          <AuthProvider>
-            <CartProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <AppContent />
-              </BrowserRouter>
-            </CartProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </TooltipProvider>
-    </QueryClientProvider>
-        </HelmetProvider>
-
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <LanguageProvider>
+            <AuthProvider>
+              <CartProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <AppContent />
+                </BrowserRouter>
+              </CartProvider>
+            </AuthProvider>
+          </LanguageProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 };
 
