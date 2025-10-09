@@ -34,18 +34,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // مراقبة حالة المستخدم
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-
-        if (session?.user) fetchUserRole(session.user.id);
-        else setUserRole(null);
-
-        setLoading(false);
-      }
-    );
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.user) fetchUserRole(session.user.id);
+      else setUserRole(null);
+      setLoading(false);
+    });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -62,10 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        emailRedirectTo: redirectUrl,
-        data: { display_name: displayName || email.split('@')[0] },
-      },
+      options: { emailRedirectTo: redirectUrl, data: { display_name: displayName || email.split('@')[0] } },
     });
     return { error };
   };
@@ -75,7 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await supabase.auth.signOut({ scope: 'global' }).catch(() => {});
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      if (data.user) window.location.href = '/';
+      setUser(data.user ?? null);
       return { error: null };
     } catch (err) {
       return { error: err };
@@ -85,7 +79,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signOut = async () => {
     try {
       await supabase.auth.signOut({ scope: 'global' });
-      window.location.href = '/auth';
+      setUser(null);
+      setSession(null);
+      setUserRole(null);
     } catch (err) {
       console.error('Error signing out:', err);
     }
