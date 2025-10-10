@@ -470,7 +470,7 @@ const Checkout = () => {
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg p-4 transition-colors z-50"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
+          xmlns="https://www.w3.org/2000/svg"
           viewBox="0 0 32 32"
           fill="currentColor"
           className="w-7 h-7"

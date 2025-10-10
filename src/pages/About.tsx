@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, Mail, ArrowRight, Newspaper, Leaf, Users, Briefcase, BookOpen } from "lucide-react";
-import myVideo from "@/assets/video_4d48ff1d_1756313657503.mp4";
-import heroImage from '@/assets/hero-image.png';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // Color palette
@@ -82,7 +80,7 @@ export default function AboutMORCG() {
               <div className="h-9 w-9 rounded-2xl" style={{ background: `linear-gradient(135deg, ${GOLD}, ${COPPER})` }} />
                  <a href="/" className="flex items-center space-x-3">
                            <img 
-                             src="/logo.png" 
+                            src="https://moroccancraftgift.com/logo.png"
                              alt="Moroccan Craft Gift Logo" 
                              className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
                            />
@@ -179,8 +177,7 @@ export default function AboutMORCG() {
   className="h-56 sm:h-64 md:h-72 rounded-3xl shadow-lg overflow-hidden"
 >
   <img 
-    src={heroImage}  
-     
+     src="https://moroccancraftgift.com/hero-image.png"
      
     className="w-full h-full object-cover"
   />
@@ -389,7 +386,7 @@ function Stats() {
         className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg p-4 transition-colors z-50"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
+          xmlns="https://www.w3.org/2000/svg"
           viewBox="0 0 32 32"
           fill="currentColor"
           className="w-7 h-7"

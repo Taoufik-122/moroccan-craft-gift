@@ -310,7 +310,7 @@ company: [
   className="p-2 rounded-full hover:bg-primary/10 transition-colors"
 >
   <svg 
-    xmlns="http://www.w3.org/2000/svg" 
+    xmlns="https://www.w3.org/2000/svg" 
     viewBox="0 0 32 32" 
     fill="currentColor" 
     className="h-5 w-5 text-foreground hover:text-primary"

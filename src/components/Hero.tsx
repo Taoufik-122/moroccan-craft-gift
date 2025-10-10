@@ -1,9 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Truck, Shield, HeadphonesIcon } from 'lucide-react';
-import heroImage from '@/assets/hero-image.png';
 import { Link } from 'react-router-dom';
-import myVideo from "@/assets/video_4d48ff1d_1756313657503.mp4";
 import { motion } from "framer-motion";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
@@ -31,12 +29,12 @@ const Hero = () => {
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
        <Helmet>
                 <title>Moroccan Craft Gift - Authentic Moroccan Handicrafts</title>
-                 <link rel="icon" href="/public/download.png" />
+                 <link rel="icon" href="https://moroccancraftgift.com/download.png" />
       
           <link rel="icon" href="/download.png" />
           <link rel="icon" href="/image2vector.svg" />
       
-          <link rel="icon" href="/public/image2vector.svg" />
+          <link rel="icon" href="https://moroccancraftgift.com/image2vector.svg" />
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -86,7 +84,7 @@ const Hero = () => {
   className="h-72 sm:h-96 md:h-[500px] lg:h-[600px] rounded-3xl shadow-lg overflow-hidden"
 >
   <video 
-    src={myVideo}  
+    src= "https://moroccancraftgift.com/video_4d48ff1d_1756313657503.mp4"  
     autoPlay 
     loop 
     muted 
