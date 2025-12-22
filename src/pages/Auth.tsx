@@ -9,7 +9,6 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Lock, User, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
@@ -64,6 +63,17 @@ const Auth = () => {
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="h-4 w-4" /> {t('backToHome')}
         </Link>
+
+<CardHeader className="space-y-1 text-center">
+  <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+    {isLogin ? t('signIn') : t('signUp')}
+  </CardTitle>
+  <CardDescription>{isLogin ? t('signInDescription') : t('signUpDescription')}</CardDescription>
+  <div className="text-xs text-green-700 mt-2">
+    تسجيل الدخول آمن ويتم عبر Supabase أو Google. بياناتك محمية ولا يتم حفظ كلمة المرور في قاعدة البيانات.
+  </div>
+</CardHeader>
+
 
         <Card className="shadow-xl border-0 bg-card/95 backdrop-blur">
           <CardHeader className="space-y-1 text-center">

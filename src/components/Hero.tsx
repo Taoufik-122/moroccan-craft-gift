@@ -4,6 +4,8 @@ import { Star, Truck, Shield, HeadphonesIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import React from 'react';
+
 
 const Hero = () => {
   const features = [
